@@ -28,10 +28,11 @@ h1{font-size:clamp(32px,9vw,54px);line-height:1.1;margin:0 0 14px;color:var(--go
 h2{font-size:clamp(24px,6vw,32px);margin:0 0 14px;color:var(--gold)}
 p.lead{font-size:clamp(17px,4.4vw,21px);color:#e8e8ee;margin:0 auto 24px;max-width:540px}
 .btns{display:flex;flex-direction:column;gap:12px;align-items:center}
-.btn,button.btn,input,select{font:inherit;font-size:18px;border-radius:14px;padding:14px 18px;width:min(100%,360px);text-align:center}
+.btn,button.btn,input,select,textarea{font:inherit;font-size:18px;border-radius:14px;padding:14px 18px;width:min(100%,360px);text-align:center}
 .btn{display:inline-block;background:var(--gold);color:#000;font-weight:700;border:0;cursor:pointer;text-decoration:none}
 .btn.alt{background:#1c1c22;color:#fff;border:1px solid var(--line);font-weight:500}
-input,select{background:#111;color:#fff;border:1px solid #555}
+input,select,textarea{background:#111;color:#fff;border:1px solid #555}
+textarea{resize:none;text-align:left;font-family:inherit}
 .steps,.cards{display:grid;gap:12px;margin-top:34px}
 .step,.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;backdrop-filter:blur(4px)}
 .step b{color:var(--gold);font-size:20px}
@@ -43,16 +44,61 @@ input,select{background:#111;color:#fff;border:1px solid #555}
 .card small{color:var(--mut);font-size:15px}
 form{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:10px}
 .about p{color:#e8e8ee;font-size:17px}
+.poem{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;text-align:left;font-size:18px;line-height:1.75;margin-top:12px}
+.poem .pl{margin:2px 0}
+.poem b{color:var(--gold);font-size:1.3em}
+#foot{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:6px 20px calc(env(safe-area-inset-bottom,0px) + 36px);text-align:center}
+#foot p{margin:0 0 14px;color:var(--mut);font-size:15px}
+.apps{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.app{display:flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none;color:var(--fg);font-size:13px}
+.app i{display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:17px;box-shadow:0 4px 14px rgba(0,0,0,.5);transition:transform .15s}
+.app:active i{transform:scale(.92)}
+.app svg{width:30px;height:30px}
+.rot{display:block;max-width:520px;margin:0 auto 12px;padding:16px 18px;border-radius:16px;background:var(--card);border:1px solid var(--line);text-decoration:none;color:var(--fg);min-height:88px;text-align:left;overflow:hidden;backdrop-filter:blur(4px)}
+#rIn{display:flex;align-items:center;gap:14px;min-height:56px}
+.re{font-size:36px;line-height:1}
+#rT{font-size:clamp(16px,4.2vw,19px);font-weight:600}
+.dots{display:flex;justify-content:center;gap:10px;margin:0 0 22px}
+.dots i{display:block;width:9px;height:9px;border-radius:50%;background:#4a4a55;cursor:pointer;transition:background .3s,transform .3s}
+.dots i.on{background:var(--gold);transform:scale(1.3)}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.view.on .hero>*{animation:up .7s both}
+.view.on .hero>*:nth-child(2){animation-delay:.12s}
+.view.on .hero>*:nth-child(3){animation-delay:.24s}
+.view.on .hero>*:nth-child(4){animation-delay:.36s}
+.view.on .hero>*:nth-child(5){animation-delay:.48s}
+.view.on .hero>*:nth-child(6){animation-delay:.6s}
 footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
-#stage{position:fixed;inset:0;z-index:6;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
+#stage{position:fixed;inset:0;z-index:6;display:none;overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 20px) 20px calc(env(safe-area-inset-bottom,0px) + 24px);text-align:center;-webkit-overflow-scrolling:touch}
 #stage.on{display:flex}
-#wait{font-size:clamp(22px,6vw,32px);color:#ffe650;font-weight:700}
-#title{font-size:clamp(30px,9vw,60px);font-weight:800;color:var(--gold);text-shadow:0 0 18px rgba(255,200,0,.6);transform:translateX(-130vw);transition:transform 1.4s cubic-bezier(.2,.8,.2,1);word-break:break-word}
+#wrap{margin:auto;width:100%;display:flex;flex-direction:column;align-items:center;gap:14px}
+#gift{display:flex;flex-direction:column;align-items:center;gap:18px;cursor:pointer}
+#giftbox{font-size:130px;line-height:1;animation:wig 1.4s infinite;transition:transform .7s,opacity .7s}
+#giftbox.open{animation:none;transform:scale(2.2) rotate(12deg);opacity:0}
+#giftHint{font-size:clamp(18px,5vw,24px);font-weight:700;color:#ffe650;animation:pul 1.6s infinite}
+@keyframes wig{0%,100%{transform:rotate(0)}20%{transform:rotate(-8deg)}40%{transform:rotate(8deg)}60%{transform:rotate(-5deg)}80%{transform:rotate(5deg)}}
+@keyframes pul{50%{opacity:.45}}
+#title{font-size:clamp(30px,9vw,60px);font-weight:800;color:var(--accent,var(--gold));text-shadow:0 0 18px var(--glow,rgba(255,200,0,.6));transform:translateX(-130vw);transition:transform 1.4s cubic-bezier(.2,.8,.2,1);word-break:break-word}
 #sub{font-size:clamp(20px,6vw,34px);font-weight:700;transform:translateX(-130vw);transition:transform 1.4s .2s cubic-bezier(.2,.8,.2,1)}
 .in{transform:translateX(0)!important}
-#share{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;opacity:0;transition:opacity 1s}
+#msg{max-width:520px;font-size:clamp(18px,5vw,26px);white-space:pre-wrap;word-break:break-word;opacity:0;transition:opacity 1.2s}
+#msg.in2,#tap.in2,#cake.in2{opacity:1}
+#tap{font-size:15px;color:var(--mut);opacity:0;transition:opacity 1s}
+#cake{display:flex;flex-direction:column;align-items:center;gap:14px;opacity:0;transition:opacity 1s;margin-top:6px}
+.cakeart{display:flex;flex-direction:column;align-items:center}
+.candles{display:flex;gap:26px}
+.candles i{display:block;width:9px;height:36px;background:#fff;border-radius:2px;position:relative}
+.candles i::before{content:"";position:absolute;left:-3px;top:-20px;width:15px;height:20px;border-radius:50% 50% 50% 50%/65% 65% 35% 35%;background:radial-gradient(circle at 50% 70%,#fff 8%,#ffd24a 45%,rgba(255,140,0,0) 72%);animation:fl .25s infinite alternate}
+@keyframes fl{to{transform:scaleY(1.15) translateY(-2px);opacity:.85}}
+#cake.out .candles i::before{display:none}
+.t1,.t2{border-radius:12px}
+.t2{width:170px;height:44px;background:#ffd2e1}
+.t1{width:230px;height:54px;background:#ff7aa8;margin-top:-6px}
+#share{margin-top:10px;display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;opacity:0;transition:opacity 1s}
 #share.in2{opacity:1}
 #link{font-size:13px;text-align:center}
+#snd{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:14px;z-index:7;background:rgba(0,0,0,.5);border:1px solid var(--line);color:#fff;font-size:22px;border-radius:12px;padding:6px 12px;cursor:pointer;display:none}
+#stage.on #snd{display:block}
 .hide{display:none!important}
 </style>
 </head>
@@ -67,6 +113,7 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
       <a href="#home" data-v="home">Bosh sahifa</a>
       <a href="#create" data-v="create">Tabrik yaratish</a>
       <a href="#types" data-v="types">Tabrik turlari</a>
+      <a href="#sher" data-v="sher">Sher</a>
       <a href="#about" data-v="about">Sayt haqida</a>
       <a href="#owner" data-v="owner">Ega haqida</a>
     </div>
@@ -77,15 +124,19 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
   <div class="hero">
     <h1>Mushakbozlikli onlayn tabrik</h1>
     <p class="lead">Ism yozing, tabrik turini tanlang va yaqinlaringizga havola yuboring. Ochgan odam o'z ismini mushaklar ostida ko'radi.</p>
+    <a class="rot" id="rot" href="#create"><div id="rIn"><span class="re" id="rE">🎆</span><span id="rT"></span></div></a>
+    <div class="dots" id="rD"></div>
     <div class="btns">
       <a class="btn" href="#create">Tabrik yaratish</a>
       <a class="btn alt" href="#types">Tabrik turlari</a>
+      <a class="btn alt" href="#sher">📜 Ism bo'yicha sher</a>
     </div>
+    <p class="lead" style="font-size:15px;margin:22px auto 0;color:var(--mut)">✨ Ekranning istalgan bo'sh joyiga bossangiz, o'sha yerga mushak otiladi.</p>
   </div>
   <div class="steps">
-    <div class="step"><b>1. Ism yozing</b><span>Tabriklanadigan odamning ismini kiriting.</span></div>
+    <div class="step"><b>1. Ism va xabar yozing</b><span>Tabriklanadigan odamning ismi va o'z xabaringiz.</span></div>
     <div class="step"><b>2. Tur tanlang</b><span>Tug'ilgan kun, bayram yoki boshqa tabrik.</span></div>
-    <div class="step"><b>3. Havolani yuboring</b><span>Telegram yoki boshqa joyga yuboring, ochilishi bilan tabrik boshlanadi.</span></div>
+    <div class="step"><b>3. Havolani yuboring</b><span>Ochgan odam avval sovg'ani ochadi, keyin mushaklar va tabrik chiqadi.</span></div>
   </div>
   <footer>berdiyevpg.github.io</footer>
 </section>
@@ -94,6 +145,7 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
   <h2>Tabrik yaratish</h2>
   <form id="f">
     <input id="name" placeholder="Ism yozing" maxlength="30" autocomplete="off">
+    <textarea id="msgIn" rows="3" maxlength="160" placeholder="O'z xabaringiz (ixtiyoriy)"></textarea>
     <select id="kind"></select>
     <button class="btn" type="submit">Boshlash</button>
   </form>
@@ -112,6 +164,22 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
   <div class="btns"><a class="btn" href="#create">Tabrik yaratish</a></div>
 </section>
 
+<section class="view" id="v-sher">
+  <h2>Ism bo'yicha sher</h2>
+  <p class="lead" style="font-size:16px;margin:0 0 16px;text-align:left">Ism yozing: sherning har bir qatori ismning bitta harfidan boshlanadi.</p>
+  <form id="sf">
+    <input id="sname" placeholder="Ism yozing (lotin harflarida)" maxlength="30" autocomplete="off">
+    <button class="btn" type="submit">Sher yozish</button>
+  </form>
+  <p id="shint" style="text-align:center;color:var(--mut);margin:12px 0 0"></p>
+  <div id="poem" class="poem hide"></div>
+  <div id="sact" class="btns hide" style="margin-top:16px">
+    <button class="btn" id="sNew" type="button">🔄 Boshqa sher</button>
+    <button class="btn alt" id="sCopy" type="button">Matnni nusxalash</button>
+    <button class="btn alt" id="sLink" type="button">Havolani nusxalash</button>
+  </div>
+</section>
+
 <section class="view about" id="v-owner">
   <h2>Ega haqida</h2>
   <p>Saytga savol yoki taklifingiz bo'lsa, ijtimoiy tarmoqlar orqali bog'lanishingiz mumkin.</p>
@@ -123,43 +191,174 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
   </div>
 </section>
 
+<div id="foot">
+  <p>Ega bilan bog'laning</p>
+  <div class="apps">
+    <a class="app" href="https://t.me/berdiyevpg_github_io" target="_blank" rel="noopener noreferrer" aria-label="Telegram kanal">
+      <i style="background:#229ed9"><svg viewBox="0 0 24 24"><path fill="#fff" d="M21 3 3 11l6 2 1 7 3-4 5 4z"/></svg></i>Telegram</a>
+    <a class="app" href="https://www.instagram.com/berdiyev_pubg01" target="_blank" rel="noopener noreferrer" aria-label="Instagram sahifa">
+      <i style="background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="#fff" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="#fff"/></svg></i>Instagram</a>
+    <a class="app" href="https://youtube.com/@berdiyev_pubg" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+      <i style="background:#f00"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4.5" fill="#fff"/><path d="M10 9l5.5 3L10 15z" fill="#f00"/></svg></i>YouTube</a>
+    <a class="app" href="https://t.me/Ilovachixakerbot?start=_tgr_7On755wzOWYy" target="_blank" rel="noopener noreferrer" aria-label="Telegram bot">
+      <i style="background:#6c5ce7"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="3" fill="none" stroke="#fff" stroke-width="2"/><circle cx="9.5" cy="13" r="1.4" fill="#fff"/><circle cx="14.5" cy="13" r="1.4" fill="#fff"/><path d="M12 8V5" stroke="#fff" stroke-width="2"/><circle cx="12" cy="4.5" r="1.3" fill="#fff"/></svg></i>Bot</a>
+  </div>
+</div>
+
 <div id="stage">
-  <div id="wait" class="hide">Kutib turing...</div>
+ <button id="snd" aria-label="Ovoz">🔊</button>
+ <div id="wrap">
+  <div id="gift" class="hide"><div id="giftbox">🎁</div><div id="giftHint">Sovg'ani ochish uchun bosing</div></div>
   <div id="title"></div>
   <div id="sub"></div>
+  <div id="msg"></div>
+  <button class="btn alt hide" id="more">🔄 Boshqa tilak</button>
+  <div id="cake" class="hide">
+    <div class="cakeart"><div class="candles"><i></i><i></i><i></i></div><div class="t2"></div><div class="t1"></div></div>
+    <button class="btn" id="blow">🌬️ Shamni pufla</button>
+  </div>
+  <div id="tap">✨ Ekranga bosing, mushak otiladi</div>
   <div id="share">
     <input id="link" readonly>
     <button class="btn" id="copy">Havolani nusxalash</button>
     <a class="btn alt go" href="#create">Yangi tabrik yaratish</a>
     <a class="btn alt go" href="#home">Bosh sahifa</a>
   </div>
+ </div>
 </div>
 
 <script>
 const KINDS=[
-  {k:"BU SIZ UCHUN",n:"Umumiy tabrik",e:"🎁",d:"Har qanday vaziyat uchun sodda va chiroyli tabrik."},
-  {k:"TUG'ILGAN KUN MUBORAK!",n:"Tug'ilgan kun",e:"🎂",d:"Yaqinlaringizning tug'ilgan kuni uchun."},
-  {k:"BAYRAMINGIZ MUBORAK!",n:"Bayram tabrigi",e:"🎉",d:"Umumiy bayramlar uchun."},
-  {k:"TABRIKLAYMAN!",n:"Tabriklayman",e:"🥳",d:"Muvaffaqiyat, yangilik va yutuqlar uchun."}
+  {k:"BU SIZ UCHUN",n:"Umumiy tabrik",e:"🎁",d:"Har qanday vaziyat uchun sodda va chiroyli tabrik.",
+   t:{acc:"#ffd700",glow:"rgba(255,200,0,.6)",bg:[0,0,0],pal:null,bpm:96,root:0}},
+  {k:"TUG'ILGAN KUN MUBORAK!",n:"Tug'ilgan kun",e:"🎂",d:"Pushti-binafsha rang, tort va shamlar: shamni ekranda puflash mumkin.",
+   t:{acc:"#ff7ab8",glow:"rgba(255,90,160,.6)",bg:[28,4,30],pal:[[255,90,160],[255,200,60],[120,200,255],[255,255,255],[190,110,255]],bpm:120,root:2}},
+  {k:"BAYRAMINGIZ MUBORAK!",n:"Bayram tabrigi",e:"🎉",d:"Yashil va oltin ranglar, bayramona kayfiyat.",
+   t:{acc:"#6dff9c",glow:"rgba(60,255,140,.55)",bg:[2,26,14],pal:[[60,255,140],[255,215,0],[255,255,255],[0,200,160],[255,120,60]],bpm:100,root:-2}},
+  {k:"TABRIKLAYMAN!",n:"Tabriklayman",e:"🥳",d:"Moviy tungi osmon, muvaffaqiyat va yutuqlar uchun.",
+   t:{acc:"#7fd8ff",glow:"rgba(0,200,255,.55)",bg:[2,14,38],pal:[[0,200,255],[120,160,255],[255,255,255],[255,215,0],[255,90,160]],bpm:112,root:3}}
 ];
+const WISHES={
+"BU SIZ UCHUN":[
+"Hayotingiz doim nurli, yuragingiz esa quvonchga to'la bo'lsin!",
+"Har kuningiz yangi imkoniyat va yaxshi xabarlar olib kelsin.",
+"Orzularingiz ushalib, yo'lingiz doim ochiq bo'lsin.",
+"Siz bilan tanish bo'lish katta baxt. Doim shunday porlab yuring!",
+"Sog'lik, baraka va hamisha tinch osmon tilayman.",
+"Qalbingizda har doim bahor bo'lsin!",
+"Ishlaringiz o'ngidan kelib, yaqinlaringiz doim yoningizda bo'lsin.",
+"Bugun ham, ertaga ham yuzingizdan tabassum arimasin."],
+"TUG'ILGAN KUN MUBORAK!":[
+"Tug'ilgan kuningiz muborak bo'lsin! Hayotingiz yanada go'zal bo'lsin.",
+"Yangi yoshingiz sizga sog'lik, baxt va katta muvaffaqiyatlar olib kelsin.",
+"Bu kunda barcha orzularingiz ushalsin, shamlar kabi yuzingiz porlab tursin!",
+"Yoshingiz uzoq, umringiz barakali, dasturxoningiz to'kin bo'lsin.",
+"Har yilingiz o'tgandan ko'ra quvonchliroq bo'lsin. Tug'ilgan kuningiz bilan!",
+"Siz kabi yaxshi insonlar ko'p yashasin! Sizga baxtli yosh tilayman.",
+"Dilingizdagi eng katta niyat bu yil amalga oshsin.",
+"Umringizning har bir kuni bayramdek o'tsin!"],
+"BAYRAMINGIZ MUBORAK!":[
+"Bayramingiz muborak bo'lsin! Uyingizga baxt va baraka kirsin.",
+"Dasturxoningiz to'kin, davrangiz sog'-salomat bo'lsin.",
+"Bu bayram sizga quvonch, oilangizga tinchlik olib kelsin.",
+"Yaqinlaringiz bilan baxtli damlar tilayman. Bayram muborak!",
+"Bayram kayfiyati yuragingizdan hech ketmasin!",
+"Ezgu niyatlaringiz qabul bo'lsin, ko'nglingiz hamisha to'q bo'lsin.",
+"Sog'lik, omad va xursandchilik doim siz bilan bo'lsin.",
+"Qutlug' bayram bilan! Hayotingiz bayramdek go'zal o'tsin."],
+"TABRIKLAYMAN!":[
+"Muvaffaqiyatingiz bilan chin dildan tabriklayman!",
+"Siz bunga loyiqsiz. Yangi cho'qqilar sari olg'a!",
+"Mehnatingiz mevasini ko'rganingiz bilan tabriklayman, yutuqlaringiz ko'p bo'lsin.",
+"Katta yutuq bilan! Yanada ulug' marralar nasib etsin.",
+"Orzularingiz ketma-ket ushalaversin!",
+"Bu yutuq faqat boshlanishi. Omad doim yoningizda bo'lsin!",
+"Sizdan faxrlanamiz! Shunday davom eting.",
+"Yangi boshlanish va baxtli kunlar bilan tabriklayman!"]
+};
+function pickWish(kind,avoid){
+  const a=WISHES[kind]||WISHES["BU SIZ UCHUN"];
+  let w;do{w=a[Math.random()*a.length|0];}while(w===avoid&&a.length>1);
+  return w;
+}
+function themeFor(k){const o=KINDS.find(x=>x.k===k);return (o||KINDS[0]).t;}
 const $=id=>document.getElementById(id);
 KINDS.forEach(o=>{
   const op=document.createElement('option');op.value=o.k;op.textContent=o.e+' '+o.n;$('kind').appendChild(op);
-  const b=document.createElement('button');b.className='card';
+  const b=document.createElement('button');b.className='card';b.style.borderLeft='4px solid '+o.t.acc;
   b.innerHTML='<span class="em">'+o.e+'</span><span><strong>'+o.n+'</strong><small>'+o.d+'</small></span>';
   b.onclick=()=>{$('kind').value=o.k;location.hash='#create';};
   $('cards').appendChild(b);
 });
 
+let AC=null,master=null,muted=false,musicTimer=null,lastBoom=0;
+function audioInit(){
+  if(AC)return;
+  try{
+    AC=new (window.AudioContext||window.webkitAudioContext)();
+    master=AC.createGain();master.gain.value=muted?0:0.8;master.connect(AC.destination);
+  }catch(e){AC=null;}
+}
+function boom(){
+  if(!AC||muted)return;
+  const t=AC.currentTime;
+  if(t-lastBoom<0.07)return;
+  lastBoom=t;
+  const len=Math.floor(AC.sampleRate*0.7),buf=AC.createBuffer(1,len,AC.sampleRate),d=buf.getChannelData(0);
+  for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2);
+  const src=AC.createBufferSource();src.buffer=buf;
+  const f=AC.createBiquadFilter();f.type='lowpass';
+  f.frequency.setValueAtTime(2200,t);f.frequency.exponentialRampToValueAtTime(180,t+0.6);
+  const g=AC.createGain();g.gain.setValueAtTime(0.55,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.7);
+  src.connect(f);f.connect(g);g.connect(master);src.start(t);
+  const o=AC.createOscillator(),og=AC.createGain();
+  o.frequency.setValueAtTime(110,t);o.frequency.exponentialRampToValueAtTime(40,t+0.35);
+  og.gain.setValueAtTime(0.5,t);og.gain.exponentialRampToValueAtTime(0.001,t+0.4);
+  o.connect(og);og.connect(master);o.start(t);o.stop(t+0.45);
+}
+function whistle(){
+  if(!AC||muted)return;
+  const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();
+  o.type='sine';o.frequency.setValueAtTime(500,t);o.frequency.exponentialRampToValueAtTime(1500,t+0.55);
+  g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(0.06,t+0.08);g.gain.exponentialRampToValueAtTime(0.0001,t+0.6);
+  o.connect(g);g.connect(master);o.start(t);o.stop(t+0.65);
+}
+function note(m,t,dur,type,vol){
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.type=type;o.frequency.value=440*Math.pow(2,(m-69)/12);
+  g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(vol,t+0.03);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+0.05);
+}
+function stopMusic(){if(musicTimer){clearInterval(musicTimer);musicTimer=null;}}
+function startMusic(th){
+  stopMusic();
+  if(!AC)return;
+  const sc=[0,2,4,7,9],ch=[0,9,5,7],beat=60/th.bpm/2;
+  let step=0,idx=5;
+  musicTimer=setInterval(()=>{
+    if(muted)return;
+    if(AC.state==='suspended')AC.resume();
+    const t=AC.currentTime+0.05;
+    if(step%8===0)note(48+th.root+ch[(step/8|0)%4],t,beat*7.5,'triangle',0.13);
+    if(Math.random()<0.8){
+      idx=Math.max(0,Math.min(9,idx+(Math.random()*5|0)-2));
+      note(60+th.root+sc[idx%5]+12*(idx/5|0),t,beat*1.8,'sine',0.09);
+    }
+    step++;
+  },beat*1000);
+}
+
 const cv=$('c'),ctx=cv.getContext('2d');
 let W=0,H=0;
 function rs(){const d=window.devicePixelRatio||1;W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0)}
 rs();addEventListener('resize',rs);
-const COL=[[255,60,100],[255,200,0],[60,255,120],[0,200,255],[200,60,255],[255,255,255],[255,120,0]];
+const DEFPAL=[[255,60,100],[255,200,0],[60,255,120],[0,200,255],[200,60,255],[255,255,255],[255,120,0]];
+let COL=DEFPAL,BG=[0,0,0];
 const stars=Array.from({length:70},()=>({x:Math.random(),y:Math.random(),p:Math.random()*6.28}));
 const rockets=[],sparks=[];
 let spawn=0.02;
 function burst(x,y){
+  boom();
   const c=COL[Math.random()*COL.length|0],c2=COL[Math.random()*COL.length|0];
   const k=Math.random(),sc=Math.min(W,H)/360;
   if(k<0.4){
@@ -176,11 +375,11 @@ function burst(x,y){
 }
 function frame(t){
   ctx.globalCompositeOperation='source-over';
-  ctx.fillStyle='rgba(0,0,0,0.25)';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba('+BG[0]+','+BG[1]+','+BG[2]+',0.25)';ctx.fillRect(0,0,W,H);
   for(const s of stars){const b=.4+.6*Math.abs(Math.sin(t/900+s.p));
     ctx.fillStyle='rgba(255,255,255,'+(b*.8)+')';ctx.fillRect(s.x*W,s.y*H,2,2);}
   if(Math.random()<spawn&&rockets.length<5){
-    rockets.push({x:W*(.15+.7*Math.random()),y:H,vx:(Math.random()-.5)*1.2,vy:-H/55,ty:H*(.12+.38*Math.random())});
+    rockets.push({x:W*(.15+.7*Math.random()),y:H,vx:(Math.random()-.5)*1.2,vy:-H/55,ty:H*(.12+.38*Math.random())});whistle();
   }
   ctx.globalCompositeOperation='lighter';
   for(const r of rockets){
@@ -200,8 +399,8 @@ function frame(t){
 }
 requestAnimationFrame(frame);
 
-const VIEWS=['home','create','types','about','owner'];
-let timers=[];
+const VIEWS=['home','create','types','sher','about','owner'];
+let timers=[],cur=null,ready=false;
 function route(){
   const v=(location.hash||'#home').slice(1);
   const cur=VIEWS.includes(v)?v:'home';
@@ -211,40 +410,83 @@ function route(){
   window.scrollTo(0,0);
 }
 function leave(){
-  timers.forEach(clearTimeout);timers=[];spawn=0.02;
+  timers.forEach(clearTimeout);timers=[];spawn=0.02;cur=null;ready=false;stopMusic();COL=DEFPAL;BG=[0,0,0];document.body.style.background='';
   document.body.classList.remove('show');$('stage').classList.remove('on');$('nav').classList.remove('hide');
   route();
 }
 addEventListener('hashchange',()=>{if($('stage').classList.contains('on'))leave();else route();});
 $('menuBtn').onclick=()=>$('links').classList.toggle('open');
 
-function play(name,kind){
-  timers.forEach(clearTimeout);timers=[];
-  document.body.classList.add('show');
-  $('nav').classList.add('hide');
+function play(name,kind,message){
+  timers.forEach(clearTimeout);timers=[];ready=false;
+  cur={name,kind,message:message||''};
+  stopMusic();
+  const th=themeFor(kind);
+  COL=th.pal||DEFPAL;BG=th.bg;
+  document.body.style.background='rgb('+th.bg.join(',')+')';
+  $('stage').style.setProperty('--accent',th.acc);$('stage').style.setProperty('--glow',th.glow);
+  document.body.classList.add('show');$('nav').classList.add('hide');
   VIEWS.forEach(n=>$('v-'+n).classList.remove('on'));
   $('stage').classList.add('on');
   ['title','sub'].forEach(i=>{$(i).classList.remove('in');$(i).style.visibility='hidden';});
-  $('share').classList.remove('in2');$('share').style.visibility='hidden';$('wait').classList.add('hide');
-  $('title').textContent=name.toUpperCase();$('sub').textContent=kind;
+  ['msg','tap','cake','share'].forEach(i=>$(i).classList.remove('in2'));
+  $('share').style.visibility='hidden';
+  $('cake').classList.add('hide');$('cake').classList.remove('out');$('blow').classList.remove('hide');
+  $('title').textContent=name.toUpperCase();$('sub').textContent=kind;$('msg').textContent=cur.message||pickWish(kind);
+  $('msg').classList.remove('hide');$('more').classList.add('hide');
+  $('tap').textContent='✨ Ekranga bosing, mushak otiladi';
+  $('giftbox').classList.remove('open');$('gift').classList.remove('hide');
+  spawn=0;
+}
+$('gift').onclick=()=>{
+  if(ready||!cur)return;
+  ready=true;
+  audioInit();if(AC&&AC.state==='suspended')AC.resume();startMusic(themeFor(cur.kind));
+  $('giftbox').classList.add('open');
+  [0,250,500].forEach((d,i)=>timers.push(setTimeout(()=>burst(W/2+(i-1)*70,H/2-i*20),d)));
   spawn=0.1;
-  timers.push(setTimeout(()=>$('wait').classList.remove('hide'),3500));
+  const bday=cur.kind.indexOf("TUG'ILGAN")===0;
+  timers.push(setTimeout(()=>$('gift').classList.add('hide'),800));
   timers.push(setTimeout(()=>{
-    $('wait').classList.add('hide');
     $('title').style.visibility='visible';$('sub').style.visibility='visible';
     void $('title').offsetWidth;
     $('title').classList.add('in');$('sub').classList.add('in');
-  },7500));
+  },1500));
+  timers.push(setTimeout(()=>$('msg').classList.add('in2'),2800));
   timers.push(setTimeout(()=>{
-    $('link').value=location.href.split('?')[0].split('#')[0]+'?ism='+encodeURIComponent(name)+'&t='+encodeURIComponent(kind);
+    if(bday){$('cake').classList.remove('hide');void $('cake').offsetWidth;$('cake').classList.add('in2');}
+    $('tap').classList.add('in2');
+    if(!cur.message)$('more').classList.remove('hide');
+  },3800));
+  timers.push(setTimeout(()=>{
+    let u=location.href.split('?')[0].split('#')[0]+'?ism='+encodeURIComponent(cur.name)+'&t='+encodeURIComponent(cur.kind);
+    if(cur.message)u+='&x='+encodeURIComponent(cur.message);
+    $('link').value=u;
     $('share').style.visibility='visible';$('share').classList.add('in2');
-  },9500));
-}
+  },4800));
+};
+$('snd').onclick=e=>{e.stopPropagation();muted=!muted;if(master)master.gain.value=muted?0:0.8;$('snd').textContent=muted?'🔇':'🔊';};
+$('more').onclick=()=>{
+  const m=$('msg');m.classList.remove('in2');
+  burst(W*(.25+.5*Math.random()),H*(.2+.15*Math.random()));
+  setTimeout(()=>{m.textContent=pickWish(cur.kind,m.textContent);m.classList.add('in2');},350);
+};
+$('blow').onclick=()=>{
+  $('cake').classList.add('out');$('blow').classList.add('hide');
+  $('tap').textContent='🎂 Tilagingizni ayting!';
+  [0,180,360,540].forEach((d,i)=>timers.push(setTimeout(()=>burst(W*(.2+.2*i),H*(.25+.1*(i%2))),d)));
+};
+document.addEventListener('click',e=>{
+  if(e.target.closest('button,a,input,select,textarea,nav,#gift,#snd'))return;
+  if($('stage').classList.contains('on')&&!ready)return;
+  if(rockets.length>=15)return;
+  rockets.push({x:e.clientX,y:H,vx:0,vy:-H/55,ty:Math.min(e.clientY,H*0.9)});whistle();
+});
 $('f').onsubmit=e=>{
   e.preventDefault();
   const n=$('name').value.trim();
   if(!n){$('name').focus();return;}
-  play(n,$('kind').value);
+  play(n,$('kind').value,$('msgIn').value.trim());
 };
 $('copy').onclick=async()=>{
   try{await navigator.clipboard.writeText($('link').value);$('copy').textContent='Nusxalandi!';}
@@ -259,11 +501,241 @@ document.querySelectorAll('a.go').forEach(a=>a.addEventListener('click',e=>{
   leave();
 }));
 
+const SHER={
+"A": [
+"Ajoyib qalbing bilan hammaga nur ulashasan.",
+"Azizim, baxtli bo'l, orzularing ushalsin.",
+"Aqling o'tkir, dilingda mehr, yo'ling oq bo'lsin."
+],
+"B": [
+"Baxting kulib boqsin, qadamlaring barakali bo'lsin.",
+"Barcha ezgu niyatlaring amalga oshsin.",
+"Birga o'tgan har bir kuning bayramdek bo'lsin."
+],
+"D": [
+"Dilingda doim quyosh porlab tursin.",
+"Dasturxoning to'kin, davrang mehrga to'la bo'lsin.",
+"Dardsiz, g'amsiz, sog'-salomat yasha."
+],
+"E": [
+"Ezgu niyatlaring ro'yobga chiqsin.",
+"Eshigingdan doim xushxabar kirsin.",
+"Elga yoqqan, dilga yaqin inson bo'lib yasha."
+],
+"F": [
+"Farzandlaringning quvonchini ko'r.",
+"Fayzli kunlar, farovon turmush nasib etsin.",
+"Faqat yaxshi xabarlar seni izlab kelsin."
+],
+"G": [
+"Gullar kabi go'zal, bahor kabi quvnoq bo'l.",
+"Go'zal kunlar sening yo'lingda kutib tursin.",
+"Gap-so'zing doim shirin, dilingdan mehr arimasin."
+],
+"G'": [
+"G'ayrating hech tugamasin, g'alabalar ketma-ket kelsin.",
+"G'amlar uzoq bo'lsin, quvonch doim yoningda.",
+"G'oyalaring ro'yobga chiqsin."
+],
+"H": [
+"Hayoting nurga, baxtga to'lsin.",
+"Har kuning bayramdek, har onating quvonchdek bo'lsin.",
+"Halol mehnating mevasini ko'r."
+],
+"I": [
+"Iloyim, hamma orzularing ushalsin.",
+"Iymoning mustahkam, ishlaring o'ngidan kelsin.",
+"Iliq so'zlar, yaxshi odamlar doim yoningda bo'lsin."
+],
+"J": [
+"Jonginang sog' bo'lsin, joning omon bo'lsin.",
+"Jahon kezib, orzularingga yet.",
+"Jilmayganingda dunyo yorishadi."
+],
+"K": [
+"Kulgu yuzingdan, quvonch ko'zingdan arimasin.",
+"Kuning yaxshi, kechang tinch o'tsin.",
+"Katta maqsadlar sari dadil qadam tashla."
+],
+"L": [
+"Lablaringdan tabassum arimasin.",
+"Layoqating bilan ko'pni hayratga sol.",
+"Lolazorlardek rang-barang kunlar nasib etsin."
+],
+"M": [
+"Mehring daryo, qalbing ochiq bo'lsin.",
+"Muvaffaqiyat doim hamroh bo'lsin.",
+"Muhabbatga, mehrga boy yasha."
+],
+"N": [
+"Nurli kunlar, nafis orzular nasib etsin.",
+"Niyatlaring pok, natijalaring ulug' bo'lsin.",
+"Nigohingdan hech qachon nur arimasin."
+],
+"O": [
+"Orzularing osmondek keng bo'lsin.",
+"Oilang tinch, ostonang farovon bo'lsin.",
+"Omading chopib, ishlaring o'ngidan kelsin."
+],
+"O'": [
+"O'zingga ishon, yo'lingda to'siq bo'lmasin.",
+"O'ylagan niyatlaring o'z vaqtida ushalsin.",
+"O'ktam, o'tkir, o'zgacha inson bo'lib yasha."
+],
+"P": [
+"Pok niyat, porloq kelajak nasib etsin.",
+"Parvoz qil, orzularing sari qanot qoq.",
+"Peshonang yorug', baxting keng bo'lsin."
+],
+"Q": [
+"Qalbing doim quvonchga to'la bo'lsin.",
+"Qadamlaring baraka bilan to'lsin.",
+"Qiyinchiliklar yengil, quvonchlar ko'p bo'lsin."
+],
+"R": [
+"Rizqing butun, rohating ko'p bo'lsin.",
+"Rostgo'ylik bilan yasha, yo'lingga nur tushsin.",
+"Ruhing doim tetik, ko'zing nurli bo'lsin."
+],
+"S": [
+"Sog'lik, saodat doim hamrohing bo'lsin.",
+"Sevgi va mehr sening ostonangni tark etmasin.",
+"Samoviy orzularing sari qadam tashlayver."
+],
+"Sh": [
+"Shod yasha, quvonching hech tugamasin.",
+"Shirin kunlar, shirin so'zlar nasib etsin.",
+"Shukronalik bilan yasha, baraka seni kutib turadi."
+],
+"T": [
+"Tilaklarim shu: tinch, to'q va baxtli yasha.",
+"Tabassuming hamisha yuzingda bo'lsin.",
+"Tinim bilmay intilgan orzularing ushalsin."
+],
+"U": [
+"Umringga uzoq yillar, ishlaringga omad tilayman.",
+"Ulug' maqsadlar sari uchaver.",
+"Uying to'la quvonch, dilingda orom bo'lsin."
+],
+"V": [
+"Vaqting baraka bilan o'tsin.",
+"Vafoli do'stlar, vijdonli yo'ldoshlar nasib etsin.",
+"Visol kunlari ko'p bo'lsin, ayriliq sendan uzoq bo'lsin."
+],
+"X": [
+"Xursandlik doim yoningda bo'lsin.",
+"Xayolingdagi orzular xayrli ro'yobga chiqsin.",
+"Xotirjam kunlar, xushchaqchaq damlar nasib etsin."
+],
+"Y": [
+"Yaxshi kunlar yoningga o'zi kelsin.",
+"Yuzingda tabassum, yuragingda yorug'lik bo'lsin.",
+"Yo'lingda hamisha omad yor bo'lsin."
+],
+"Z": [
+"Zamona seni siylasin, zafarlar seni izlasin.",
+"Zakovating bilan barcha cho'qqilarni zabt et.",
+"Zavq-shavq bilan to'la kunlar nasib etsin."
+],
+"Ch": [
+"Chin dildan tilayman: baxtli bo'l.",
+"Chiroyli kunlar, chiroyli niyatlar yo'ldoshing bo'lsin.",
+"Charchamay intil, cho'qqilar seni kutadi."
+]
+};
+function nameKeys(nm){
+  nm=nm.toLowerCase().replace(/[\u02bb\u02bc\u2019\u2018`\u00b4]/g,"'");
+  const out=[];
+  for(let i=0;i<nm.length&&out.length<16;i++){
+    const c=nm[i],d=nm[i+1];
+    if((c==='o'||c==='g')&&d==="'"){out.push(c.toUpperCase()+"'");i++;}
+    else if(c==='s'&&d==='h'){out.push('Sh');i++;}
+    else if(c==='c'&&d==='h'){out.push('Ch');i++;}
+    else if(/[a-z]/.test(c))out.push(c.toUpperCase());
+  }
+  return out;
+}
+let poemText='';
+function makePoem(){
+  const nm=$('sname').value.trim();
+  const keys=nameKeys(nm);
+  const box=$('poem');box.innerHTML='';
+  if(!keys.length){
+    box.classList.add('hide');$('sact').classList.add('hide');
+    $('shint').textContent=nm?'Ismni lotin harflarida yozing.':'Avval ism yozing.';
+    return;
+  }
+  $('shint').textContent='';
+  const lines=[];
+  keys.forEach(k=>{
+    const arr=SHER[k];
+    const line=arr?arr[Math.random()*arr.length|0]:k+" harfi ham ismingga yarashgan, sen kabi go'zal.";
+    lines.push(line);
+    const d=document.createElement('div');d.className='pl';
+    const b=document.createElement('b');b.textContent=line.slice(0,k.length);
+    d.appendChild(b);d.appendChild(document.createTextNode(line.slice(k.length)));
+    box.appendChild(d);
+  });
+  poemText=lines.join('\n');
+  box.classList.remove('hide');$('sact').classList.remove('hide');
+  burst(W/2,H*0.3);
+}
+async function copyTxt(t,btn,lab){
+  try{await navigator.clipboard.writeText(t);btn.textContent='Nusxalandi!';}
+  catch(e){btn.textContent="Nusxalab bo'lmadi";}
+  setTimeout(()=>{btn.textContent=lab},2000);
+}
+$('sf').onsubmit=e=>{e.preventDefault();makePoem();};
+$('sNew').onclick=makePoem;
+$('sCopy').onclick=()=>copyTxt($('sname').value.trim().toUpperCase()+'\n\n'+poemText,$('sCopy'),'Matnni nusxalash');
+$('sLink').onclick=()=>copyTxt(location.href.split('?')[0].split('#')[0]+'?sher='+encodeURIComponent($('sname').value.trim())+'#sher',$('sLink'),'Havolani nusxalash');
+
+const RS=[
+  {e:"🎆",t:"Ism yozing, mushakbozlikli tabrik tayyor bo'ladi.",h:"#create"},
+  {e:"🎁",t:"Havolani ochgan odam avval sovg'ani ochadi, keyin tabrik chiqadi.",h:"#create"},
+  {e:"🎂",t:"Tug'ilgan kunga tort chiqadi, shamlarni ekranda puflash mumkin.",h:"#types"},
+  {e:"📜",t:"Ismning har bir harfidan boshlanadigan sher yoziladi.",h:"#sher"},
+  {e:"🎶",t:"Har tabrikning o'z rangi, ovozi va musiqasi bor.",h:"#types"},
+  {e:"✨",t:"Hech narsa o'rnatish va ro'yxatdan o'tish shart emas.",h:"#about"}
+];
+let ri=0,rt=null;
+RS.forEach((x,i)=>{const d=document.createElement('i');d.onclick=()=>{showSlide(i);rotStart();};$('rD').appendChild(d);});
+function applySlide(){
+  $('rE').textContent=RS[ri].e;$('rT').textContent=RS[ri].t;$('rot').href=RS[ri].h;
+  [...$('rD').children].forEach((d,i)=>d.classList.toggle('on',i===ri));
+}
+function showSlide(i,instant){
+  ri=i;
+  if(instant){applySlide();return;}
+  const el=$('rIn');
+  el.style.transition='opacity .3s,transform .3s';el.style.opacity=0;el.style.transform='translateY(-12px)';
+  setTimeout(()=>{
+    applySlide();
+    el.style.transition='none';el.style.transform='translateY(12px)';void el.offsetWidth;
+    el.style.transition='opacity .35s,transform .35s';el.style.opacity=1;el.style.transform='none';
+  },320);
+}
+function rotStart(){
+  if(rt)clearInterval(rt);
+  rt=setInterval(()=>{
+    if(document.hidden||document.body.classList.contains('show')||!$('v-home').classList.contains('on'))return;
+    showSlide((ri+1)%RS.length);
+  },3400);
+}
+showSlide(0,true);rotStart();
+
 route();
 try{
   const q=new URLSearchParams(location.search);
-  if(q.get('ism')){play(q.get('ism').slice(0,30),(q.get('t')||'BU SIZ UCHUN').slice(0,40));}
+  if(q.get('sher')){$('sname').value=q.get('sher').slice(0,30);makePoem();if(location.hash!=='#sher')location.hash='#sher';}
+  if(q.get('ism')){play(q.get('ism').slice(0,30),(q.get('t')||'BU SIZ UCHUN').slice(0,40),(q.get('x')||'').slice(0,160));}
 }catch(e){}
+if($('v-home').classList.contains('on')&&!document.body.classList.contains('show')){
+  [400,1000,1600].forEach((d,i)=>setTimeout(()=>{
+    if(document.body.classList.contains('show')||!$('v-home').classList.contains('on'))return;
+    rockets.push({x:W*(.25+.25*i),y:H,vx:0,vy:-H/55,ty:H*(.18+.1*(i%2))});
+  },d));
+}
 </script>
 </body>
 </html>
