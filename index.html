@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tabrik</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0;background:#000;color:#fff;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;overflow:hidden}
+canvas{position:fixed;inset:0;width:100%;height:100%}
+.layer{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
+.hide{display:none}
+h1{margin:0;font-size:clamp(22px,6vw,34px);color:#ffd700}
+input,select,button{font:inherit;font-size:18px;border-radius:12px;border:1px solid #555;padding:14px 16px;width:min(100%,360px);box-sizing:border-box;background:#111;color:#fff}
+button{background:#ffd700;color:#000;border:0;font-weight:700;cursor:pointer}
+button.alt{background:#222;color:#fff;border:1px solid #555;font-weight:500}
+#wait{font-size:clamp(22px,6vw,32px);color:#ffe650;font-weight:700}
+#title{font-size:clamp(30px,9vw,60px);font-weight:800;color:#ffd700;text-shadow:0 0 18px rgba(255,200,0,.6);transform:translateX(-130vw);transition:transform 1.4s cubic-bezier(.2,.8,.2,1);word-break:break-word}
+#sub{font-size:clamp(20px,6vw,34px);font-weight:700;transform:translateX(-130vw);transition:transform 1.4s .2s cubic-bezier(.2,.8,.2,1)}
+.in{transform:translateX(0)!important}
+#share{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;opacity:0;transition:opacity 1s}
+#share.in2{opacity:1}
+#link{font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div class="layer" id="form">
+  <h1>Tabrik yaratish</h1>
+  <input id="name" placeholder="Ism yozing" maxlength="30" autocomplete="off">
+  <select id="kind">
+    <option>BU SIZ UCHUN</option>
+    <option>TUG'ILGAN KUN MUBORAK!</option>
+    <option>BAYRAMINGIZ MUBORAK!</option>
+    <option>TABRIKLAYMAN!</option>
+  </select>
+  <button id="go">Boshlash</button>
+</div>
+
+<div class="layer hide" id="stage">
+  <div id="wait" class="hide">Kutib turing...</div>
+  <div id="title"></div>
+  <div id="sub"></div>
+  <div id="share">
+    <input id="link" readonly>
+    <button id="copy">Havolani nusxalash</button>
+    <button id="again" class="alt">Yangi tabrik</button>
+  </div>
+</div>
+
+<script>
+const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+let W=0,H=0;
+function rs(){const d=window.devicePixelRatio||1;W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0)}
+rs();addEventListener('resize',rs);
+
+const COL=[[255,60,100],[255,200,0],[60,255,120],[0,200,255],[200,60,255],[255,255,255],[255,120,0]];
+const stars=Array.from({length:70},()=>({x:Math.random(),y:Math.random(),p:Math.random()*6.28}));
+const rockets=[],sparks=[];
+let spawn=0.02;
+
+function burst(x,y){
+  const c=COL[Math.random()*COL.length|0],c2=COL[Math.random()*COL.length|0];
+  const k=Math.random(),sc=Math.min(W,H)/360;
+  if(k<0.4){
+    for(let i=0;i<70;i++){const a=Math.random()*6.28,s=(1+Math.random()*5.5)*sc,l=40+Math.random()*25;
+      sparks.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l,m:l,c});}
+  }else if(k<0.7){
+    for(let i=0;i<50;i++){const a=i*6.2832/50,l=45+Math.random()*15;
+      sparks.push({x,y,vx:Math.cos(a)*4.5*sc,vy:Math.sin(a)*4.5*sc,l,m:l,c:i%2?c:c2});}
+  }else{
+    for(let i=0;i<60;i++){const t=i*6.2832/60,l=50+Math.random()*15;
+      sparks.push({x,y,vx:16*Math.sin(t)**3*0.3*sc,
+        vy:-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))*0.3*sc,l,m:l,c:[255,70,120]});}
+  }
+}
+
+function frame(t){
+  ctx.globalCompositeOperation='source-over';
+  ctx.fillStyle='rgba(0,0,0,0.25)';ctx.fillRect(0,0,W,H);
+  for(const s of stars){const b=.4+.6*Math.abs(Math.sin(t/900+s.p));
+    ctx.fillStyle='rgba(255,255,255,'+(b*.8)+')';ctx.fillRect(s.x*W,s.y*H,2,2);}
+  if(Math.random()<spawn&&rockets.length<5){
+    rockets.push({x:W*(.15+.7*Math.random()),y:H,vx:(Math.random()-.5)*1.2,vy:-H/55,ty:H*(.12+.38*Math.random())});
+  }
+  ctx.globalCompositeOperation='lighter';
+  for(const r of rockets){
+    r.x+=r.vx;r.y+=r.vy;
+    ctx.fillStyle='rgb(255,220,160)';ctx.fillRect(r.x-2,r.y-2,4,10);
+    if(r.y<=r.ty){r.dead=1;burst(r.x,r.y);}
+  }
+  for(let i=rockets.length-1;i>=0;i--)if(rockets[i].dead)rockets.splice(i,1);
+  for(const s of sparks){
+    s.x+=s.vx;s.y+=s.vy;s.vx*=.965;s.vy=s.vy*.965+.07;s.l--;
+    const f=Math.max(s.l,0)/s.m;
+    ctx.fillStyle='rgba('+s.c[0]+','+s.c[1]+','+s.c[2]+','+f+')';
+    const z=1.5+3*f;ctx.fillRect(s.x-z/2,s.y-z/2,z,z);
+  }
+  for(let i=sparks.length-1;i>=0;i--)if(sparks[i].l<=0)sparks.splice(i,1);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+const $=id=>document.getElementById(id);
+let timers=[];
+function play(name,kind){
+  timers.forEach(clearTimeout);timers=[];
+  $('form').classList.add('hide');$('stage').classList.remove('hide');
+  $('title').classList.remove('in');$('sub').classList.remove('in');$('share').classList.remove('in2');
+  $('title').textContent=name.toUpperCase();$('sub').textContent=kind;
+  $('wait').classList.add('hide');$('title').style.visibility='hidden';$('sub').style.visibility='hidden';$('share').style.visibility='hidden';
+  spawn=0.1;
+  timers.push(setTimeout(()=>{$('wait').classList.remove('hide');},3500));
+  timers.push(setTimeout(()=>{
+    $('wait').classList.add('hide');
+    $('title').style.visibility='visible';$('sub').style.visibility='visible';
+    void $('title').offsetWidth;
+    $('title').classList.add('in');$('sub').classList.add('in');
+  },7500));
+  timers.push(setTimeout(()=>{
+    let url=location.href.split('?')[0]+'?ism='+encodeURIComponent(name)+'&t='+encodeURIComponent(kind);
+    $('link').value=url;$('share').style.visibility='visible';$('share').classList.add('in2');
+  },9500));
+}
+
+$('go').onclick=()=>{
+  const n=$('name').value.trim();
+  if(!n){$('name').focus();return;}
+  play(n,$('kind').value);
+};
+$('copy').onclick=async()=>{
+  const v=$('link').value;
+  try{await navigator.clipboard.writeText(v);$('copy').textContent='Nusxalandi!';}
+  catch(e){$('link').select();$('copy').textContent='Havolani bosib nusxalang';}
+  setTimeout(()=>{$('copy').textContent='Havolani nusxalash'},2500);
+};
+$('link').onclick=()=>$('link').select();
+$('again').onclick=()=>{
+  timers.forEach(clearTimeout);spawn=0.02;
+  $('stage').classList.add('hide');$('form').classList.remove('hide');
+};
+
+try{
+  const q=new URLSearchParams(location.search);
+  if(q.get('ism')){play(q.get('ism').slice(0,30),(q.get('t')||'BU SIZ UCHUN').slice(0,40));}
+}catch(e){}
+</script>
+</body>
+</html>
