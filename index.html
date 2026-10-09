@@ -3,64 +3,162 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tabrik</title>
+<title>Hammasi siz uchun — mushakbozlikli onlayn tabriklar</title>
+<meta name="description" content="Ism yozing, tabrik turini tanlang va mushakbozlikli tabrik havolasini yaqinlaringizga yuboring.">
 <style>
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#000;--fg:#fff;--gold:#ffd700;--card:rgba(20,20,24,.78);--line:#3a3a42;--mut:#b8b8c2;box-sizing:border-box}
+*{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-html,body{height:100%;margin:0;background:#000;color:#fff;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;overflow:hidden}
-canvas{position:fixed;inset:0;width:100%;height:100%}
-.layer{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
-.hide{display:none}
-h1{margin:0;font-size:clamp(22px,6vw,34px);color:#ffd700}
-input,select,button{font:inherit;font-size:18px;border-radius:12px;border:1px solid #555;padding:14px 16px;width:min(100%,360px);box-sizing:border-box;background:#111;color:#fff}
-button{background:#ffd700;color:#000;border:0;font-weight:700;cursor:pointer}
-button.alt{background:#222;color:#fff;border:1px solid #555;font-weight:500}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.5}
+body.show{overflow:hidden;height:100%}
+canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:5;padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 10px;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;max-width:900px;margin:auto}
+.brand{font-weight:800;font-size:19px;color:var(--gold);text-decoration:none}
+#menuBtn{background:none;border:1px solid var(--line);color:#fff;font-size:22px;border-radius:10px;padding:2px 12px;cursor:pointer}
+#links{display:none;flex-direction:column;gap:2px;max-width:900px;margin:8px auto 0}
+#links.open{display:flex}
+#links a{color:#fff;text-decoration:none;padding:12px 8px;border-radius:10px;font-size:17px}
+#links a.on,#links a:hover{background:#25252c;color:var(--gold)}
+@media(min-width:700px){#menuBtn{display:none}#links{display:flex;flex-direction:row;margin:0;gap:6px}#links a{padding:8px 12px;font-size:16px}.bar{gap:20px}}
+.view{display:none;position:relative;z-index:1;max-width:760px;margin:auto;padding:calc(env(safe-area-inset-top,0px) + 92px) 20px calc(env(safe-area-inset-bottom,0px) + 50px)}
+.view.on{display:block}
+.hero{text-align:center;padding-top:30px}
+h1{font-size:clamp(32px,9vw,54px);line-height:1.1;margin:0 0 14px;color:var(--gold);text-shadow:0 0 22px rgba(255,200,0,.45)}
+h2{font-size:clamp(24px,6vw,32px);margin:0 0 14px;color:var(--gold)}
+p.lead{font-size:clamp(17px,4.4vw,21px);color:#e8e8ee;margin:0 auto 24px;max-width:540px}
+.btns{display:flex;flex-direction:column;gap:12px;align-items:center}
+.btn,button.btn,input,select{font:inherit;font-size:18px;border-radius:14px;padding:14px 18px;width:min(100%,360px);text-align:center}
+.btn{display:inline-block;background:var(--gold);color:#000;font-weight:700;border:0;cursor:pointer;text-decoration:none}
+.btn.alt{background:#1c1c22;color:#fff;border:1px solid var(--line);font-weight:500}
+input,select{background:#111;color:#fff;border:1px solid #555}
+.steps,.cards{display:grid;gap:12px;margin-top:34px}
+.step,.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;backdrop-filter:blur(4px)}
+.step b{color:var(--gold);font-size:20px}
+.step span{display:block;color:var(--mut);margin-top:2px}
+.card{cursor:pointer;display:flex;gap:14px;align-items:center;text-align:left;width:100%;color:#fff;font:inherit}
+.card:hover{border-color:var(--gold)}
+.card .em{font-size:34px}
+.card strong{display:block;font-size:19px}
+.card small{color:var(--mut);font-size:15px}
+form{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:10px}
+.about p{color:#e8e8ee;font-size:17px}
+footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
+#stage{position:fixed;inset:0;z-index:6;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
+#stage.on{display:flex}
 #wait{font-size:clamp(22px,6vw,32px);color:#ffe650;font-weight:700}
-#title{font-size:clamp(30px,9vw,60px);font-weight:800;color:#ffd700;text-shadow:0 0 18px rgba(255,200,0,.6);transform:translateX(-130vw);transition:transform 1.4s cubic-bezier(.2,.8,.2,1);word-break:break-word}
+#title{font-size:clamp(30px,9vw,60px);font-weight:800;color:var(--gold);text-shadow:0 0 18px rgba(255,200,0,.6);transform:translateX(-130vw);transition:transform 1.4s cubic-bezier(.2,.8,.2,1);word-break:break-word}
 #sub{font-size:clamp(20px,6vw,34px);font-weight:700;transform:translateX(-130vw);transition:transform 1.4s .2s cubic-bezier(.2,.8,.2,1)}
 .in{transform:translateX(0)!important}
 #share{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;opacity:0;transition:opacity 1s}
 #share.in2{opacity:1}
 #link{font-size:13px;text-align:center}
+.hide{display:none!important}
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
 
-<div class="layer" id="form">
-  <h1>Tabrik yaratish</h1>
-  <input id="name" placeholder="Ism yozing" maxlength="30" autocomplete="off">
-  <select id="kind">
-    <option>BU SIZ UCHUN</option>
-    <option>TUG'ILGAN KUN MUBORAK!</option>
-    <option>BAYRAMINGIZ MUBORAK!</option>
-    <option>TABRIKLAYMAN!</option>
-  </select>
-  <button id="go">Boshlash</button>
-</div>
+<nav id="nav">
+  <div class="bar">
+    <a class="brand" href="#home">🎆 Hammasi siz uchun</a>
+    <button id="menuBtn" aria-label="Menyu">☰</button>
+    <div id="links">
+      <a href="#home" data-v="home">Bosh sahifa</a>
+      <a href="#create" data-v="create">Tabrik yaratish</a>
+      <a href="#types" data-v="types">Tabrik turlari</a>
+      <a href="#about" data-v="about">Sayt haqida</a>
+      <a href="#owner" data-v="owner">Ega haqida</a>
+    </div>
+  </div>
+</nav>
 
-<div class="layer hide" id="stage">
+<section class="view" id="v-home">
+  <div class="hero">
+    <h1>Mushakbozlikli onlayn tabrik</h1>
+    <p class="lead">Ism yozing, tabrik turini tanlang va yaqinlaringizga havola yuboring. Ochgan odam o'z ismini mushaklar ostida ko'radi.</p>
+    <div class="btns">
+      <a class="btn" href="#create">Tabrik yaratish</a>
+      <a class="btn alt" href="#types">Tabrik turlari</a>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="step"><b>1. Ism yozing</b><span>Tabriklanadigan odamning ismini kiriting.</span></div>
+    <div class="step"><b>2. Tur tanlang</b><span>Tug'ilgan kun, bayram yoki boshqa tabrik.</span></div>
+    <div class="step"><b>3. Havolani yuboring</b><span>Telegram yoki boshqa joyga yuboring, ochilishi bilan tabrik boshlanadi.</span></div>
+  </div>
+  <footer>berdiyevpg.github.io</footer>
+</section>
+
+<section class="view" id="v-create">
+  <h2>Tabrik yaratish</h2>
+  <form id="f">
+    <input id="name" placeholder="Ism yozing" maxlength="30" autocomplete="off">
+    <select id="kind"></select>
+    <button class="btn" type="submit">Boshlash</button>
+  </form>
+</section>
+
+<section class="view" id="v-types">
+  <h2>Tabrik turlari</h2>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section class="view about" id="v-about">
+  <h2>Sayt haqida</h2>
+  <p>«Hammasi siz uchun» turli bayramlar va tadbirlar uchun onlayn tabriklar yaratishga mo'ljallangan veb-sahifa.</p>
+  <p>Siz tabrik turini tanlab, maxsus havola yaratasiz va uni yaqinlaringizga yuborasiz. Havolani ochgan odam mushakbozlik va o'z ismini ko'radi.</p>
+  <p>Saytdan foydalanish uchun brauzer orqali manzilga kirish kifoya, hech narsa o'rnatish yoki ro'yxatdan o'tish shart emas.</p>
+  <div class="btns"><a class="btn" href="#create">Tabrik yaratish</a></div>
+</section>
+
+<section class="view about" id="v-owner">
+  <h2>Ega haqida</h2>
+  <p>Saytga savol yoki taklifingiz bo'lsa, ijtimoiy tarmoqlar orqali bog'lanishingiz mumkin.</p>
+  <div class="btns" style="margin-top:20px">
+    <a class="btn alt" href="https://t.me/berdiyevpg_github_io" target="_blank" rel="noopener noreferrer">✈️ Telegram kanal</a>
+    <a class="btn alt" href="https://www.instagram.com/berdiyev_pubg01" target="_blank" rel="noopener noreferrer">📸 Instagram sahifam</a>
+    <a class="btn alt" href="https://youtube.com/@berdiyev_pubg" target="_blank" rel="noopener noreferrer">▶️ YouTube</a>
+    <a class="btn alt" href="https://t.me/Ilovachixakerbot?start=_tgr_7On755wzOWYy" target="_blank" rel="noopener noreferrer">🤖 Telegram bot</a>
+  </div>
+</section>
+
+<div id="stage">
   <div id="wait" class="hide">Kutib turing...</div>
   <div id="title"></div>
   <div id="sub"></div>
   <div id="share">
     <input id="link" readonly>
-    <button id="copy">Havolani nusxalash</button>
-    <button id="again" class="alt">Yangi tabrik</button>
+    <button class="btn" id="copy">Havolani nusxalash</button>
+    <a class="btn alt go" href="#create">Yangi tabrik yaratish</a>
+    <a class="btn alt go" href="#home">Bosh sahifa</a>
   </div>
 </div>
 
 <script>
-const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+const KINDS=[
+  {k:"BU SIZ UCHUN",n:"Umumiy tabrik",e:"🎁",d:"Har qanday vaziyat uchun sodda va chiroyli tabrik."},
+  {k:"TUG'ILGAN KUN MUBORAK!",n:"Tug'ilgan kun",e:"🎂",d:"Yaqinlaringizning tug'ilgan kuni uchun."},
+  {k:"BAYRAMINGIZ MUBORAK!",n:"Bayram tabrigi",e:"🎉",d:"Umumiy bayramlar uchun."},
+  {k:"TABRIKLAYMAN!",n:"Tabriklayman",e:"🥳",d:"Muvaffaqiyat, yangilik va yutuqlar uchun."}
+];
+const $=id=>document.getElementById(id);
+KINDS.forEach(o=>{
+  const op=document.createElement('option');op.value=o.k;op.textContent=o.e+' '+o.n;$('kind').appendChild(op);
+  const b=document.createElement('button');b.className='card';
+  b.innerHTML='<span class="em">'+o.e+'</span><span><strong>'+o.n+'</strong><small>'+o.d+'</small></span>';
+  b.onclick=()=>{$('kind').value=o.k;location.hash='#create';};
+  $('cards').appendChild(b);
+});
+
+const cv=$('c'),ctx=cv.getContext('2d');
 let W=0,H=0;
 function rs(){const d=window.devicePixelRatio||1;W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0)}
 rs();addEventListener('resize',rs);
-
 const COL=[[255,60,100],[255,200,0],[60,255,120],[0,200,255],[200,60,255],[255,255,255],[255,120,0]];
 const stars=Array.from({length:70},()=>({x:Math.random(),y:Math.random(),p:Math.random()*6.28}));
 const rockets=[],sparks=[];
 let spawn=0.02;
-
 function burst(x,y){
   const c=COL[Math.random()*COL.length|0],c2=COL[Math.random()*COL.length|0];
   const k=Math.random(),sc=Math.min(W,H)/360;
@@ -76,7 +174,6 @@ function burst(x,y){
         vy:-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))*0.3*sc,l,m:l,c:[255,70,120]});}
   }
 }
-
 function frame(t){
   ctx.globalCompositeOperation='source-over';
   ctx.fillStyle='rgba(0,0,0,0.25)';ctx.fillRect(0,0,W,H);
@@ -103,16 +200,35 @@ function frame(t){
 }
 requestAnimationFrame(frame);
 
-const $=id=>document.getElementById(id);
+const VIEWS=['home','create','types','about','owner'];
 let timers=[];
+function route(){
+  const v=(location.hash||'#home').slice(1);
+  const cur=VIEWS.includes(v)?v:'home';
+  VIEWS.forEach(n=>$('v-'+n).classList.toggle('on',n===cur));
+  document.querySelectorAll('#links a').forEach(a=>a.classList.toggle('on',a.dataset.v===cur));
+  $('links').classList.remove('open');
+  window.scrollTo(0,0);
+}
+function leave(){
+  timers.forEach(clearTimeout);timers=[];spawn=0.02;
+  document.body.classList.remove('show');$('stage').classList.remove('on');$('nav').classList.remove('hide');
+  route();
+}
+addEventListener('hashchange',()=>{if($('stage').classList.contains('on'))leave();else route();});
+$('menuBtn').onclick=()=>$('links').classList.toggle('open');
+
 function play(name,kind){
   timers.forEach(clearTimeout);timers=[];
-  $('form').classList.add('hide');$('stage').classList.remove('hide');
-  $('title').classList.remove('in');$('sub').classList.remove('in');$('share').classList.remove('in2');
+  document.body.classList.add('show');
+  $('nav').classList.add('hide');
+  VIEWS.forEach(n=>$('v-'+n).classList.remove('on'));
+  $('stage').classList.add('on');
+  ['title','sub'].forEach(i=>{$(i).classList.remove('in');$(i).style.visibility='hidden';});
+  $('share').classList.remove('in2');$('share').style.visibility='hidden';$('wait').classList.add('hide');
   $('title').textContent=name.toUpperCase();$('sub').textContent=kind;
-  $('wait').classList.add('hide');$('title').style.visibility='hidden';$('sub').style.visibility='hidden';$('share').style.visibility='hidden';
   spawn=0.1;
-  timers.push(setTimeout(()=>{$('wait').classList.remove('hide');},3500));
+  timers.push(setTimeout(()=>$('wait').classList.remove('hide'),3500));
   timers.push(setTimeout(()=>{
     $('wait').classList.add('hide');
     $('title').style.visibility='visible';$('sub').style.visibility='visible';
@@ -120,28 +236,30 @@ function play(name,kind){
     $('title').classList.add('in');$('sub').classList.add('in');
   },7500));
   timers.push(setTimeout(()=>{
-    let url=location.href.split('?')[0]+'?ism='+encodeURIComponent(name)+'&t='+encodeURIComponent(kind);
-    $('link').value=url;$('share').style.visibility='visible';$('share').classList.add('in2');
+    $('link').value=location.href.split('?')[0].split('#')[0]+'?ism='+encodeURIComponent(name)+'&t='+encodeURIComponent(kind);
+    $('share').style.visibility='visible';$('share').classList.add('in2');
   },9500));
 }
-
-$('go').onclick=()=>{
+$('f').onsubmit=e=>{
+  e.preventDefault();
   const n=$('name').value.trim();
   if(!n){$('name').focus();return;}
   play(n,$('kind').value);
 };
 $('copy').onclick=async()=>{
-  const v=$('link').value;
-  try{await navigator.clipboard.writeText(v);$('copy').textContent='Nusxalandi!';}
+  try{await navigator.clipboard.writeText($('link').value);$('copy').textContent='Nusxalandi!';}
   catch(e){$('link').select();$('copy').textContent='Havolani bosib nusxalang';}
   setTimeout(()=>{$('copy').textContent='Havolani nusxalash'},2500);
 };
 $('link').onclick=()=>$('link').select();
-$('again').onclick=()=>{
-  timers.forEach(clearTimeout);spawn=0.02;
-  $('stage').classList.add('hide');$('form').classList.remove('hide');
-};
+document.querySelectorAll('a.go').forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();
+  const h=a.getAttribute('href');
+  if(location.hash!==h)history.replaceState(null,'',location.pathname+h);
+  leave();
+}));
 
+route();
 try{
   const q=new URLSearchParams(location.search);
   if(q.get('ism')){play(q.get('ism').slice(0,30),(q.get('t')||'BU SIZ UCHUN').slice(0,40));}
