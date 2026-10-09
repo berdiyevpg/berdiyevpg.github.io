@@ -44,9 +44,9 @@ textarea{resize:none;text-align:left;font-family:inherit}
 .card small{color:var(--mut);font-size:15px}
 form{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:10px}
 .about p{color:#e8e8ee;font-size:17px}
-.poem{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;text-align:left;font-size:19px;line-height:2.1;margin-top:12px}
-.poem .pl{margin:10px 0;display:flex;align-items:baseline;gap:8px}
-.poem b{color:var(--gold);font-size:1.3em;min-width:28px}
+.poem{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;text-align:left;font-size:18px;line-height:1.75;margin-top:12px}
+.poem .pl{margin:2px 0}
+.poem b{color:var(--gold);font-size:1.3em}
 #foot{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:6px 20px calc(env(safe-area-inset-bottom,0px) + 36px);text-align:center}
 #foot p{margin:0 0 14px;color:var(--mut);font-size:15px}
 .apps{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
@@ -272,7 +272,7 @@ const WISHES={
 "Mehnatingiz mevasini ko'rganingiz bilan tabriklayman, yutuqlaringiz ko'p bo'lsin.",
 "Katta yutuq bilan! Yanada ulug' marralar nasib etsin.",
 "Orzularingiz ketma-ket ushalaversin!",
-"Bu yutuq faqat boshlanishi. Omad doim yoningda bo'lsin!",
+"Bu yutuq faqat boshlanishi. Omad doim yoningizda bo'lsin!",
 "Sizdan faxrlanamiz! Shunday davom eting.",
 "Yangi boshlanish va baxtli kunlar bilan tabriklayman!"]
 };
@@ -309,8 +309,7 @@ function boom(){
   const src=AC.createBufferSource();src.buffer=buf;
   const f=AC.createBiquadFilter();f.type='lowpass';
   f.frequency.setValueAtTime(2200,t);f.frequency.exponentialRampToValueAtTime(180,t+0.6);
-  const g=AC.createGain();g.gain.setValueAtTime(0.55,t);g.gain.expon
-    const g=AC.createGain();g.gain.setValueAtTime(0.55,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.7);
+  const g=AC.createGain();g.gain.setValueAtTime(0.55,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.7);
   src.connect(f);f.connect(g);g.connect(master);src.start(t);
   const o=AC.createOscillator(),og=AC.createGain();
   o.frequency.setValueAtTime(110,t);o.frequency.exponentialRampToValueAtTime(40,t+0.35);
@@ -610,13 +609,13 @@ const SHER={
 ],
 "T": [
 "Tilaklarim shu: tinch, to'q va baxtli yasha.",
-"Tabassuming hamisha yuzingda bo me'yorda bo'lsin.",
+"Tabassuming hamisha yuzingda bo'lsin.",
 "Tinim bilmay intilgan orzularing ushalsin."
 ],
 "U": [
 "Umringga uzoq yillar, ishlaringga omad tilayman.",
 "Ulug' maqsadlar sari uchaver.",
-"Uying to'la quvonch, dilingda orom bo me'yorda bo'lsin."
+"Uying to'la quvonch, dilingda orom bo'lsin."
 ],
 "V": [
 "Vaqting baraka bilan o'tsin.",
@@ -662,7 +661,8 @@ function makePoem(){
   const keys=nameKeys(nm);
   const box=$('poem');box.innerHTML='';
   if(!keys.length){
-    box.classList.add('hide');$('sact').classList.add('hide');$('shint').textContent=nm?'Ismni lotin harflarida yozing.':'Avval ism yozing.';
+    box.classList.add('hide');$('sact').classList.add('hide');
+    $('shint').textContent=nm?'Ismni lotin harflarida yozing.':'Avval ism yozing.';
     return;
   }
   $('shint').textContent='';
@@ -670,15 +670,10 @@ function makePoem(){
   keys.forEach(k=>{
     const arr=SHER[k];
     const line=arr?arr[Math.random()*arr.length|0]:k+" harfi ham ismingga yarashgan, sen kabi go'zal.";
-    
-    const formattedLine = `- ${k} — ${line.slice(k.length).trim()}`;
-    lines.push(formattedLine);
-
+    lines.push(line);
     const d=document.createElement('div');d.className='pl';
-    const b=document.createElement('b');
-    b.textContent=`- ${k}`;
-    d.appendChild(b);
-    d.appendChild(document.createTextNode(` — ${line.slice(k.length).trim()}`));
+    const b=document.createElement('b');b.textContent=line.slice(0,k.length);
+    d.appendChild(b);d.appendChild(document.createTextNode(line.slice(k.length)));
     box.appendChild(d);
   });
   poemText=lines.join('\n');
@@ -690,8 +685,10 @@ async function copyTxt(t,btn,lab){
   catch(e){btn.textContent="Nusxalab bo'lmadi";}
   setTimeout(()=>{btn.textContent=lab},2000);
 }
-$('sf').onsubmit=e=>{e.preventDefault();makePoem();};$('sNew').onclick=makePoem;
-$('sCopy').onclick=()=>copyTxt($('sname').value.trim().toUpperCase()+'\n\n'+poemText,$('sCopy'),'Matnni nusxalash');$('sLink').onclick=()=>copyTxt(location.href.split('?')[0].split('#')[0]+'?sher='+encodeURIComponent($('sname').value.trim())+'#sher',$('sLink'),'Havolani nusxalash');
+$('sf').onsubmit=e=>{e.preventDefault();makePoem();};
+$('sNew').onclick=makePoem;
+$('sCopy').onclick=()=>copyTxt($('sname').value.trim().toUpperCase()+'\n\n'+poemText,$('sCopy'),'Matnni nusxalash');
+$('sLink').onclick=()=>copyTxt(location.href.split('?')[0].split('#')[0]+'?sher='+encodeURIComponent($('sname').value.trim())+'#sher',$('sLink'),'Havolani nusxalash');
 
 const RS=[
   {e:"🎆",t:"Ism yozing, mushakbozlikli tabrik tayyor bo'ladi.",h:"#create"},
