@@ -54,20 +54,6 @@ form{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:1
 .app i{display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:17px;box-shadow:0 4px 14px rgba(0,0,0,.5);transition:transform .15s}
 .app:active i{transform:scale(.92)}
 .app svg{width:30px;height:30px}
-.rot{display:block;max-width:520px;margin:0 auto 12px;padding:16px 18px;border-radius:16px;background:var(--card);border:1px solid var(--line);text-decoration:none;color:var(--fg);min-height:88px;text-align:left;overflow:hidden;backdrop-filter:blur(4px)}
-#rIn{display:flex;align-items:center;gap:14px;min-height:56px}
-.re{font-size:36px;line-height:1}
-#rT{font-size:clamp(16px,4.2vw,19px);font-weight:600}
-.dots{display:flex;justify-content:center;gap:10px;margin:0 0 22px}
-.dots i{display:block;width:9px;height:9px;border-radius:50%;background:#4a4a55;cursor:pointer;transition:background .3s,transform .3s}
-.dots i.on{background:var(--gold);transform:scale(1.3)}
-@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-.view.on .hero>*{animation:up .7s both}
-.view.on .hero>*:nth-child(2){animation-delay:.12s}
-.view.on .hero>*:nth-child(3){animation-delay:.24s}
-.view.on .hero>*:nth-child(4){animation-delay:.36s}
-.view.on .hero>*:nth-child(5){animation-delay:.48s}
-.view.on .hero>*:nth-child(6){animation-delay:.6s}
 footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
 #stage{position:fixed;inset:0;z-index:6;display:none;overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 20px) 20px calc(env(safe-area-inset-bottom,0px) + 24px);text-align:center;-webkit-overflow-scrolling:touch}
 #stage.on{display:flex}
@@ -124,8 +110,6 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
   <div class="hero">
     <h1>Mushakbozlikli onlayn tabrik</h1>
     <p class="lead">Ism yozing, tabrik turini tanlang va yaqinlaringizga havola yuboring. Ochgan odam o'z ismini mushaklar ostida ko'radi.</p>
-    <a class="rot" id="rot" href="#create"><div id="rIn"><span class="re" id="rE">🎆</span><span id="rT"></span></div></a>
-    <div class="dots" id="rD"></div>
     <div class="btns">
       <a class="btn" href="#create">Tabrik yaratish</a>
       <a class="btn alt" href="#types">Tabrik turlari</a>
@@ -690,52 +674,12 @@ $('sNew').onclick=makePoem;
 $('sCopy').onclick=()=>copyTxt($('sname').value.trim().toUpperCase()+'\n\n'+poemText,$('sCopy'),'Matnni nusxalash');
 $('sLink').onclick=()=>copyTxt(location.href.split('?')[0].split('#')[0]+'?sher='+encodeURIComponent($('sname').value.trim())+'#sher',$('sLink'),'Havolani nusxalash');
 
-const RS=[
-  {e:"🎆",t:"Ism yozing, mushakbozlikli tabrik tayyor bo'ladi.",h:"#create"},
-  {e:"🎁",t:"Havolani ochgan odam avval sovg'ani ochadi, keyin tabrik chiqadi.",h:"#create"},
-  {e:"🎂",t:"Tug'ilgan kunga tort chiqadi, shamlarni ekranda puflash mumkin.",h:"#types"},
-  {e:"📜",t:"Ismning har bir harfidan boshlanadigan sher yoziladi.",h:"#sher"},
-  {e:"🎶",t:"Har tabrikning o'z rangi, ovozi va musiqasi bor.",h:"#types"},
-  {e:"✨",t:"Hech narsa o'rnatish va ro'yxatdan o'tish shart emas.",h:"#about"}
-];
-let ri=0,rt=null;
-RS.forEach((x,i)=>{const d=document.createElement('i');d.onclick=()=>{showSlide(i);rotStart();};$('rD').appendChild(d);});
-function applySlide(){
-  $('rE').textContent=RS[ri].e;$('rT').textContent=RS[ri].t;$('rot').href=RS[ri].h;
-  [...$('rD').children].forEach((d,i)=>d.classList.toggle('on',i===ri));
-}
-function showSlide(i,instant){
-  ri=i;
-  if(instant){applySlide();return;}
-  const el=$('rIn');
-  el.style.transition='opacity .3s,transform .3s';el.style.opacity=0;el.style.transform='translateY(-12px)';
-  setTimeout(()=>{
-    applySlide();
-    el.style.transition='none';el.style.transform='translateY(12px)';void el.offsetWidth;
-    el.style.transition='opacity .35s,transform .35s';el.style.opacity=1;el.style.transform='none';
-  },320);
-}
-function rotStart(){
-  if(rt)clearInterval(rt);
-  rt=setInterval(()=>{
-    if(document.hidden||document.body.classList.contains('show')||!$('v-home').classList.contains('on'))return;
-    showSlide((ri+1)%RS.length);
-  },3400);
-}
-showSlide(0,true);rotStart();
-
 route();
 try{
   const q=new URLSearchParams(location.search);
   if(q.get('sher')){$('sname').value=q.get('sher').slice(0,30);makePoem();if(location.hash!=='#sher')location.hash='#sher';}
   if(q.get('ism')){play(q.get('ism').slice(0,30),(q.get('t')||'BU SIZ UCHUN').slice(0,40),(q.get('x')||'').slice(0,160));}
 }catch(e){}
-if($('v-home').classList.contains('on')&&!document.body.classList.contains('show')){
-  [400,1000,1600].forEach((d,i)=>setTimeout(()=>{
-    if(document.body.classList.contains('show')||!$('v-home').classList.contains('on'))return;
-    rockets.push({x:W*(.25+.25*i),y:H,vx:0,vy:-H/55,ty:H*(.18+.1*(i%2))});
-  },d));
-}
 </script>
 </body>
 </html>
