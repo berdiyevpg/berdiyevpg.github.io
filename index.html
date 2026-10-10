@@ -13,14 +13,15 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-
 body.show{overflow:hidden;height:100%}
 canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 nav{position:fixed;top:0;left:0;right:0;z-index:5;padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 10px;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.bar{display:flex;align-items:center;justify-content:space-between;max-width:900px;margin:auto}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;max-width:900px;margin:auto}
+.navr{display:flex;gap:8px;align-items:center}
 .brand{font-weight:800;font-size:19px;color:var(--gold);text-decoration:none}
-#menuBtn{background:none;border:1px solid var(--line);color:#fff;font-size:22px;border-radius:10px;padding:2px 12px;cursor:pointer}
-#links{display:none;flex-direction:column;gap:2px;max-width:900px;margin:8px auto 0}
+#menuBtn,#accBtn{background:none;border:1px solid var(--line);color:#fff;font-size:22px;border-radius:10px;padding:2px 12px;cursor:pointer}
+#links{display:none;flex-direction:column;gap:2px;max-width:900px;margin:8px auto 0;width:100%}
 #links.open{display:flex}
 #links a{color:#fff;text-decoration:none;padding:12px 8px;border-radius:10px;font-size:17px}
 #links a.on,#links a:hover{background:#25252c;color:var(--gold)}
-@media(min-width:700px){#menuBtn{display:none}#links{display:flex;flex-direction:row;margin:0;gap:6px}#links a{padding:8px 12px;font-size:16px}.bar{gap:20px}}
+@media(min-width:700px){#menuBtn{display:none}.navr{order:3}#links{display:flex;flex-direction:row;margin:0;gap:6px;width:auto}#links a{padding:8px 12px;font-size:16px}.bar{gap:20px}}
 .view{display:none;position:relative;z-index:1;max-width:760px;margin:auto;padding:calc(env(safe-area-inset-top,0px) + 92px) 20px calc(env(safe-area-inset-bottom,0px) + 50px)}
 .view.on{display:block}
 .hero{text-align:center;padding-top:30px}
@@ -54,6 +55,28 @@ form{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:1
 .app i{display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:17px;box-shadow:0 4px 14px rgba(0,0,0,.5);transition:transform .15s}
 .app:active i{transform:scale(.92)}
 .app svg{width:30px;height:30px}
+.rot{display:block;max-width:520px;margin:0 auto 12px;padding:16px 18px;border-radius:16px;background:var(--card);border:1px solid var(--line);text-decoration:none;color:var(--fg);min-height:88px;text-align:left;overflow:hidden;backdrop-filter:blur(4px)}
+#rIn{display:flex;align-items:center;gap:14px;min-height:56px}
+.re{font-size:36px;line-height:1}
+#rT{font-size:clamp(16px,4.2vw,19px);font-weight:600}
+.dots{display:flex;justify-content:center;gap:10px;margin:0 0 22px}
+.dots i{display:block;width:9px;height:9px;border-radius:50%;background:#4a4a55;cursor:pointer;transition:background .3s,transform .3s}
+.dots i.on{background:var(--gold);transform:scale(1.3)}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.view.on .hero>*{animation:up .7s both}
+.view.on .hero>*:nth-child(2){animation-delay:.12s}
+.view.on .hero>*:nth-child(3){animation-delay:.24s}
+.view.on .hero>*:nth-child(4){animation-delay:.36s}
+.view.on .hero>*:nth-child(5){animation-delay:.48s}
+.view.on .hero>*:nth-child(6){animation-delay:.6s}
+#banner{background:rgba(255,215,0,.12);border:1px solid var(--gold);color:var(--gold);padding:10px 14px;border-radius:12px;margin:0 auto 16px;max-width:520px;font-size:15px}
+.gbtn{background:#fff!important;color:#1f1f1f!important;border:1px solid #dadce0!important;font-weight:600;display:flex;align-items:center;justify-content:center;gap:12px;margin:0 auto;cursor:pointer}
+.gbtn svg{width:22px;height:22px;flex:none}
+.lnk{background:none;border:0;color:var(--mut);font:inherit;font-size:15px;text-decoration:underline;cursor:pointer;padding:6px}
+.msg{min-height:22px;margin:12px 0 0;text-align:center;font-size:15px}
+.msg.ok{color:#6dff9c}.msg.err{color:#ff8a8a}
+.fl{display:block;text-align:left;color:var(--mut);font-size:14px;margin:12px auto 4px;width:min(100%,360px)}
+.acc{text-align:center;color:#e8e8ee;font-size:17px}
 footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
 #stage{position:fixed;inset:0;z-index:6;display:none;overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 20px) 20px calc(env(safe-area-inset-bottom,0px) + 24px);text-align:center;-webkit-overflow-scrolling:touch}
 #stage.on{display:flex}
@@ -84,7 +107,9 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
 #share.in2{opacity:1}
 #link{font-size:13px;text-align:center}
 #snd{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:14px;z-index:7;background:rgba(0,0,0,.5);border:1px solid var(--line);color:#fff;font-size:22px;border-radius:12px;padding:6px 12px;cursor:pointer;display:none}
-#stage.on #snd{display:block}
+#mus{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);left:14px;z-index:7;background:rgba(0,0,0,.5);border:1px solid var(--line);color:#fff;font:inherit;font-size:15px;border-radius:12px;padding:9px 13px;cursor:pointer;display:none}
+#stage.on #snd,#stage.on #mus{display:block}
+body.show #foot{display:none}
 .hide{display:none!important}
 </style>
 </head>
@@ -93,8 +118,8 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
 
 <nav id="nav">
   <div class="bar">
-    <a class="brand" href="#home">🎆 Hammasi siz uchun</a>
-    <button id="menuBtn" aria-label="Menyu">☰</button>
+    <a class="brand" href="#home">🎆 <span id="brandName">Hammasi siz uchun</span></a>
+    <div class="navr"><button id="accBtn" aria-label="Kirish">🔐</button><button id="menuBtn" aria-label="Menyu">☰</button></div>
     <div id="links">
       <a href="#home" data-v="home">Bosh sahifa</a>
       <a href="#create" data-v="create">Tabrik yaratish</a>
@@ -108,8 +133,11 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
 
 <section class="view" id="v-home">
   <div class="hero">
-    <h1>Mushakbozlikli onlayn tabrik</h1>
-    <p class="lead">Ism yozing, tabrik turini tanlang va yaqinlaringizga havola yuboring. Ochgan odam o'z ismini mushaklar ostida ko'radi.</p>
+    <div id="banner" class="hide"></div>
+    <h1 id="heroH1">Mushakbozlikli onlayn tabrik</h1>
+    <p class="lead" id="heroLead">Ism yozing, tabrik turini tanlang va yaqinlaringizga havola yuboring. Ochgan odam o'z ismini mushaklar ostida ko'radi.</p>
+    <a class="rot" id="rot" href="#create"><div id="rIn"><span class="re" id="rE">🎆</span><span id="rT"></span></div></a>
+    <div class="dots" id="rD"></div>
     <div class="btns">
       <a class="btn" href="#create">Tabrik yaratish</a>
       <a class="btn alt" href="#types">Tabrik turlari</a>
@@ -164,33 +192,87 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
   </div>
 </section>
 
+<section class="view" id="v-login">
+  <h2>Kirish</h2>
+  <p id="fbNote" class="msg err hide">Hisob tizimi hali ulanmagan: faylning boshidagi FIREBASE_CONFIG to'ldirilmagan.</p>
+  <div id="authOut">
+    <div class="btns"><button class="btn alt" id="aSwitch" type="button">✨ Yangi hisob yarating</button></div>
+    <form id="af" style="margin-top:14px">
+      <input id="aEmail" type="email" placeholder="Email" autocomplete="email" autocapitalize="none">
+      <input id="aPass" type="password" placeholder="Parol (kamida 6 belgi)" autocomplete="current-password">
+      <input id="aPass2" class="hide" type="password" placeholder="Parolni takrorlang" autocomplete="new-password">
+      <button class="btn" id="aGo" type="submit">Kirish</button>
+    </form>
+    <div class="btns" style="margin-top:6px"><button class="lnk" id="aForgot" type="button">Parolni unutdim</button></div>
+    <p id="aMsg" class="msg"></p>
+    <div class="btns" style="margin-top:4px">
+      <button class="btn gbtn" id="aGoogle" type="button">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        <span>Google orqali kirish</span>
+      </button>
+    </div>
+  </div>
+  <div id="authIn" class="hide">
+    <p class="acc" id="aWho"></p>
+    <p class="msg" id="aVer"></p>
+    <div class="btns" style="margin-top:14px">
+      <a class="btn hide" id="aAdminLink" href="#admin">⚙️ Sozlash paneli</a>
+      <button class="btn alt hide" id="aRefresh" type="button">Tasdiqladim, yangilash</button>
+      <button class="btn alt hide" id="aResend" type="button">Tasdiqlash xatini qayta yuborish</button>
+      <button class="btn alt" id="aOut" type="button">Chiqish</button>
+    </div>
+    <p id="aMsg2" class="msg"></p>
+  </div>
+</section>
+
+<section class="view" id="v-admin">
+  <h2>Sozlash paneli</h2>
+  <p class="lead" style="font-size:15px;margin:0 0 6px;text-align:left;color:var(--mut)">Bu yerda o'zgartirganingiz saytda hammaga ko'rinadi. Bo'sh qoldirilgan maydon standart qiymatga qaytadi.</p>
+  <form id="cf">
+    <label class="fl" for="cName">Sayt nomi</label><input id="cName" maxlength="40">
+    <label class="fl" for="cH1">Bosh sarlavha</label><input id="cH1" maxlength="80">
+    <label class="fl" for="cLead">Bosh sahifa matni</label><textarea id="cLead" rows="4" maxlength="300"></textarea>
+    <label class="fl" for="cBanner">E'lon (bosh sahifa tepasida, bo'sh = yo'q)</label><input id="cBanner" maxlength="120">
+    <label class="fl" for="cTg">Telegram kanal havolasi</label><input id="cTg" type="url" autocapitalize="none">
+    <label class="fl" for="cIg">Instagram havolasi</label><input id="cIg" type="url" autocapitalize="none">
+    <label class="fl" for="cYt">YouTube havolasi</label><input id="cYt" type="url" autocapitalize="none">
+    <label class="fl" for="cBot">Telegram bot havolasi</label><input id="cBot" type="url" autocapitalize="none">
+    <label class="fl" for="cMusic">Boshlang'ich musiqa uslubi</label>
+    <select id="cMusic"><option value="phonk">Phonk</option><option value="uz">O'zbekcha</option><option value="calm">Sokin</option></select>
+    <button class="btn" type="submit" style="margin-top:16px">Saqlash</button>
+    <button class="btn alt" id="cReset" type="button">Standart holatga qaytarish</button>
+  </form>
+  <p id="cMsg" class="msg"></p>
+</section>
+
 <section class="view about" id="v-owner">
   <h2>Ega haqida</h2>
   <p>Saytga savol yoki taklifingiz bo'lsa, ijtimoiy tarmoqlar orqali bog'lanishingiz mumkin.</p>
   <div class="btns" style="margin-top:20px">
-    <a class="btn alt" href="https://t.me/berdiyevpg_github_io" target="_blank" rel="noopener noreferrer">✈️ Telegram kanal</a>
-    <a class="btn alt" href="https://www.instagram.com/berdiyev_pubg01" target="_blank" rel="noopener noreferrer">📸 Instagram sahifam</a>
-    <a class="btn alt" href="https://youtube.com/@berdiyev_pubg" target="_blank" rel="noopener noreferrer">▶️ YouTube</a>
-    <a class="btn alt" href="https://t.me/Ilovachixakerbot?start=_tgr_7On755wzOWYy" target="_blank" rel="noopener noreferrer">🤖 Telegram bot</a>
+    <a class="btn alt" data-lk="tg" href="https://t.me/berdiyevpg_github_io" target="_blank" rel="noopener noreferrer">✈️ Telegram kanal</a>
+    <a class="btn alt" data-lk="ig" href="https://www.instagram.com/berdiyev_pubg01" target="_blank" rel="noopener noreferrer">📸 Instagram sahifam</a>
+    <a class="btn alt" data-lk="yt" href="https://youtube.com/@berdiyev_pubg" target="_blank" rel="noopener noreferrer">▶️ YouTube</a>
+    <a class="btn alt" data-lk="bot" href="https://t.me/Ilovachixakerbot?start=_tgr_7On755wzOWYy" target="_blank" rel="noopener noreferrer">🤖 Telegram bot</a>
   </div>
 </section>
 
 <div id="foot">
   <p>Ega bilan bog'laning</p>
   <div class="apps">
-    <a class="app" href="https://t.me/berdiyevpg_github_io" target="_blank" rel="noopener noreferrer" aria-label="Telegram kanal">
+    <a class="app" data-lk="tg" href="https://t.me/berdiyevpg_github_io" target="_blank" rel="noopener noreferrer" aria-label="Telegram kanal">
       <i style="background:#229ed9"><svg viewBox="0 0 24 24"><path fill="#fff" d="M21 3 3 11l6 2 1 7 3-4 5 4z"/></svg></i>Telegram</a>
-    <a class="app" href="https://www.instagram.com/berdiyev_pubg01" target="_blank" rel="noopener noreferrer" aria-label="Instagram sahifa">
+    <a class="app" data-lk="ig" href="https://www.instagram.com/berdiyev_pubg01" target="_blank" rel="noopener noreferrer" aria-label="Instagram sahifa">
       <i style="background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="#fff" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="#fff"/></svg></i>Instagram</a>
-    <a class="app" href="https://youtube.com/@berdiyev_pubg" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+    <a class="app" data-lk="yt" href="https://youtube.com/@berdiyev_pubg" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
       <i style="background:#f00"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4.5" fill="#fff"/><path d="M10 9l5.5 3L10 15z" fill="#f00"/></svg></i>YouTube</a>
-    <a class="app" href="https://t.me/Ilovachixakerbot?start=_tgr_7On755wzOWYy" target="_blank" rel="noopener noreferrer" aria-label="Telegram bot">
+    <a class="app" data-lk="bot" href="https://t.me/Ilovachixakerbot?start=_tgr_7On755wzOWYy" target="_blank" rel="noopener noreferrer" aria-label="Telegram bot">
       <i style="background:#6c5ce7"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="3" fill="none" stroke="#fff" stroke-width="2"/><circle cx="9.5" cy="13" r="1.4" fill="#fff"/><circle cx="14.5" cy="13" r="1.4" fill="#fff"/><path d="M12 8V5" stroke="#fff" stroke-width="2"/><circle cx="12" cy="4.5" r="1.3" fill="#fff"/></svg></i>Bot</a>
   </div>
 </div>
 
 <div id="stage">
  <button id="snd" aria-label="Ovoz">🔊</button>
+ <button id="mus" aria-label="Musiqa uslubi">🎵 Phonk</button>
  <div id="wrap">
   <div id="gift" class="hide"><div id="giftbox">🎁</div><div id="giftHint">Sovg'ani ochish uchun bosing</div></div>
   <div id="title"></div>
@@ -212,6 +294,17 @@ footer{margin-top:40px;text-align:center;color:var(--mut);font-size:14px}
 </div>
 
 <script>
+/* ============ SOZLAMALAR (qo'lda o'zgartirsa bo'ladi) ============ */
+const ADMIN_EMAIL="berdiyevpg3k@gmail.com";
+/* Firebase konsolidan olingan qiymatlarni shu yerga qo'ying: */
+const FIREBASE_CONFIG={
+  apiKey:"AIzaSyA-uEagrCn9WlxmwF9MzrTNdos_y5xCDoE",
+  authDomain:"berdiyevpggithubio.firebaseapp.com",
+  projectId:"berdiyevpggithubio",
+  appId:"1:784876925742:web:7fd4de4364221586af80bf"
+};
+const FB_VER="10.14.1";
+/* ================================================================== */
 const KINDS=[
   {k:"BU SIZ UCHUN",n:"Umumiy tabrik",e:"🎁",d:"Har qanday vaziyat uchun sodda va chiroyli tabrik.",
    t:{acc:"#ffd700",glow:"rgba(255,200,0,.6)",bg:[0,0,0],pal:null,bpm:96,root:0}},
@@ -280,7 +373,7 @@ function audioInit(){
   if(AC)return;
   try{
     AC=new (window.AudioContext||window.webkitAudioContext)();
-    master=AC.createGain();master.gain.value=muted?0:0.8;master.connect(AC.destination);
+    master=AC.createGain();master.gain.value=muted?0:0.55;const cmp=AC.createDynamicsCompressor();master.connect(cmp);cmp.connect(AC.destination);
   }catch(e){AC=null;}
 }
 function boom(){
@@ -314,22 +407,121 @@ function note(m,t,dur,type,vol){
   o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+0.05);
 }
 function stopMusic(){if(musicTimer){clearInterval(musicTimer);musicTimer=null;}}
+let noiseBuf=null;
+function getNoise(){
+  if(noiseBuf)return noiseBuf;
+  noiseBuf=AC.createBuffer(1,AC.sampleRate,AC.sampleRate);
+  const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+  return noiseBuf;
+}
+function nz(t,dur,ftype,freq,vol,q){
+  const src=AC.createBufferSource();src.buffer=getNoise();
+  const f=AC.createBiquadFilter();f.type=ftype;f.frequency.value=freq;if(q)f.Q.value=q;
+  const g=AC.createGain();g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  src.connect(f);f.connect(g);g.connect(master);src.start(t,Math.random()*0.5);src.stop(t+dur+0.02);
+}
+function osc(t,type,f0,f1,dur,vol,atk){
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.type=type;o.frequency.setValueAtTime(f0,t);
+  if(f1&&f1!==f0)o.frequency.exponentialRampToValueAtTime(f1,t+Math.min(dur,0.12));
+  g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(vol,t+(atk||0.005));g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+0.05);
+}
+function kick808(t,f,dur){osc(t,'sine',f*3.2,f,dur,0.85,0.004);}
+function clap(t){nz(t,0.2,'bandpass',1700,0.5,0.8);nz(t+0.012,0.14,'bandpass',2400,0.35,0.8);}
+function hat(t,open){nz(t,open?0.18:0.04,'highpass',8000,open?0.13:0.1);}
+function cowbell(t,f){
+  [f,f*1.504].forEach(x=>{
+    const o=AC.createOscillator(),bp=AC.createBiquadFilter(),g=AC.createGain();
+    o.type='square';o.frequency.value=x;bp.type='bandpass';bp.frequency.value=x*1.5;bp.Q.value=1.2;
+    g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(0.16,t+0.004);g.gain.exponentialRampToValueAtTime(0.0001,t+0.2);
+    o.connect(bp);bp.connect(g);g.connect(master);o.start(t);o.stop(t+0.25);
+  });
+}
+function pluck(t,f,dur,vol){
+  const o=AC.createOscillator(),lp=AC.createBiquadFilter(),g=AC.createGain();
+  o.type='sawtooth';o.frequency.value=f;
+  lp.type='lowpass';lp.frequency.setValueAtTime(f*7,t);lp.frequency.exponentialRampToValueAtTime(f*1.5,t+dur);
+  g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(vol,t+0.006);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(lp);lp.connect(g);g.connect(master);o.start(t);o.stop(t+dur+0.05);
+}
+const mf=m=>440*Math.pow(2,(m-69)/12);
+
+/* --- PHONK: 808 bas, cowbell, hi-hat --- */
+const CB=[{0:0,3:0,6:3,8:0,10:5,14:3},{0:0,3:0,6:3,8:7,10:5,12:3,14:0}];
+const BASS=[49,49,41.2,43.65];
+function playPhonk(step,t,dur){
+  const s=step%16,bar=(step/16|0)%4;
+  if(s===0||s===6||s===10||(bar===3&&s===14))kick808(t,BASS[bar],dur*5);
+  if(s===4||s===12)clap(t);
+  if(s%2===0)hat(t,false);
+  if(bar===3&&s>=13)hat(t,false);
+  if(s===15&&bar!==3)hat(t,true);
+  const c=CB[bar%2];
+  if(c[s]!==undefined)cowbell(t,392*Math.pow(2,c[s]/12));
+}
+
+/* --- O'ZBEKCHA: doira urishi va rubob kabi ohang (original) --- */
+const HIJAZ=[0,1,4,5,7,8,10,12];
+const DOIRA="D.TTDTT.";
+let uzPhrase=[],uzIdx=0,uzCount=0;
+function makeUzPhrase(){
+  const p=[];let i=uzIdx;
+  for(let k=0;k<16;k++){
+    if(k===15){i=0;}else{i=Math.max(0,Math.min(7,i+(Math.random()*5|0)-2));}
+    p.push(Math.random()<0.15&&k%4!==0&&k!==15?-1:i);
+  }
+  return p;
+}
+function playUz(step,t,dur){
+  const s=step%8,root=57;
+  const d=DOIRA[s];
+  if(d==='D'){osc(t,'sine',150,70,0.22,0.8,0.004);nz(t,0.05,'lowpass',900,0.25);}
+  else if(d==='T'){nz(t,0.05,'bandpass',3200,0.3,1.5);}
+  if(s===0)osc(t,'triangle',mf(root-12),mf(root-12),dur*8,0.1,0.15);
+  if(step%16===0){
+    if(uzCount%2===0)uzPhrase=makeUzPhrase();
+    uzCount++;
+  }
+  const n=uzPhrase[step%16];
+  if(n!==undefined&&n>=0){
+    const m=root+HIJAZ[n];
+    if(Math.random()<0.18)pluck(t-dur*0.22,mf(m+1),dur*0.3,0.07);
+    pluck(t,mf(m),dur*1.9,0.14);
+  }
+}
+
+/* --- SOKIN: yumshoq (avvalgi) --- */
+let calmIdx=5;
+function playCalm(step,t,dur,th){
+  const sc=[0,2,4,7,9],ch=[0,9,5,7];
+  if(step%8===0)osc(t,'triangle',mf(48+th.root+ch[(step/8|0)%4]),mf(48+th.root+ch[(step/8|0)%4]),dur*7.5,0.13,0.03);
+  if(Math.random()<0.8){
+    calmIdx=Math.max(0,Math.min(9,calmIdx+(Math.random()*5|0)-2));
+    const m=60+th.root+sc[calmIdx%5]+12*(calmIdx/5|0);
+    osc(t,'sine',mf(m),mf(m),dur*1.8,0.09,0.03);
+  }
+}
+const STYLES=[
+  {id:'phonk',name:'Phonk',bpm:132,div:4,play:playPhonk},
+  {id:'uz',name:"O'zbekcha",bpm:104,div:2,play:playUz},
+  {id:'calm',name:'Sokin',bpm:0,div:2,play:playCalm}
+];
+let styleIdx=0;
 function startMusic(th){
   stopMusic();
   if(!AC)return;
-  const sc=[0,2,4,7,9],ch=[0,9,5,7],beat=60/th.bpm/2;
-  let step=0,idx=5;
+  const st=STYLES[styleIdx];
+  const bpm=st.bpm||th.bpm;
+  const dur=60/bpm/st.div;
+  let step=0,next=AC.currentTime+0.1;
   musicTimer=setInterval(()=>{
-    if(muted)return;
     if(AC.state==='suspended')AC.resume();
-    const t=AC.currentTime+0.05;
-    if(step%8===0)note(48+th.root+ch[(step/8|0)%4],t,beat*7.5,'triangle',0.13);
-    if(Math.random()<0.8){
-      idx=Math.max(0,Math.min(9,idx+(Math.random()*5|0)-2));
-      note(60+th.root+sc[idx%5]+12*(idx/5|0),t,beat*1.8,'sine',0.09);
+    while(next<AC.currentTime+0.25){
+      if(!muted)st.play(step,next,dur,th);
+      step++;next+=dur;
     }
-    step++;
-  },beat*1000);
+  },50);
 }
 
 const cv=$('c'),ctx=cv.getContext('2d');
@@ -383,11 +575,13 @@ function frame(t){
 }
 requestAnimationFrame(frame);
 
-const VIEWS=['home','create','types','sher','about','owner'];
+const VIEWS=['home','create','types','sher','about','owner','login','admin'];
 let timers=[],cur=null,ready=false;
 function route(){
   const v=(location.hash||'#home').slice(1);
-  const cur=VIEWS.includes(v)?v:'home';
+  let cur=VIEWS.includes(v)?v:'home';
+  if(cur==='admin'&&!isAdmin()){if(authReady)history.replaceState(null,'','#login');cur='login';}
+  if(cur==='admin')fillAdmin();
   VIEWS.forEach(n=>$('v-'+n).classList.toggle('on',n===cur));
   document.querySelectorAll('#links a').forEach(a=>a.classList.toggle('on',a.dataset.v===cur));
   $('links').classList.remove('open');
@@ -449,11 +643,17 @@ $('gift').onclick=()=>{
     $('share').style.visibility='visible';$('share').classList.add('in2');
   },4800));
 };
-$('snd').onclick=e=>{e.stopPropagation();muted=!muted;if(master)master.gain.value=muted?0:0.8;$('snd').textContent=muted?'🔇':'🔊';};
+$('snd').onclick=e=>{e.stopPropagation();muted=!muted;if(master)master.gain.value=muted?0:0.55;$('snd').textContent=muted?'🔇':'🔊';};
 $('more').onclick=()=>{
   const m=$('msg');m.classList.remove('in2');
   burst(W*(.25+.5*Math.random()),H*(.2+.15*Math.random()));
   setTimeout(()=>{m.textContent=pickWish(cur.kind,m.textContent);m.classList.add('in2');},350);
+};
+$('mus').onclick=e=>{
+  e.stopPropagation();
+  styleIdx=(styleIdx+1)%STYLES.length;
+  $('mus').textContent='🎵 '+STYLES[styleIdx].name;
+  if(ready&&AC&&cur)startMusic(themeFor(cur.kind));
 };
 $('blow').onclick=()=>{
   $('cake').classList.add('out');$('blow').classList.add('hide');
@@ -461,7 +661,7 @@ $('blow').onclick=()=>{
   [0,180,360,540].forEach((d,i)=>timers.push(setTimeout(()=>burst(W*(.2+.2*i),H*(.25+.1*(i%2))),d)));
 };
 document.addEventListener('click',e=>{
-  if(e.target.closest('button,a,input,select,textarea,nav,#gift,#snd'))return;
+  if(e.target.closest('button,a,input,select,textarea,nav,#gift,#snd,#mus'))return;
   if($('stage').classList.contains('on')&&!ready)return;
   if(rockets.length>=15)return;
   rockets.push({x:e.clientX,y:H,vx:0,vy:-H/55,ty:Math.min(e.clientY,H*0.9)});whistle();
@@ -674,12 +874,260 @@ $('sNew').onclick=makePoem;
 $('sCopy').onclick=()=>copyTxt($('sname').value.trim().toUpperCase()+'\n\n'+poemText,$('sCopy'),'Matnni nusxalash');
 $('sLink').onclick=()=>copyTxt(location.href.split('?')[0].split('#')[0]+'?sher='+encodeURIComponent($('sname').value.trim())+'#sher',$('sLink'),'Havolani nusxalash');
 
+const RS=[
+  {e:"🎆",t:"Ism yozing, mushakbozlikli tabrik tayyor bo'ladi.",h:"#create"},
+  {e:"🎁",t:"Havolani ochgan odam avval sovg'ani ochadi, keyin tabrik chiqadi.",h:"#create"},
+  {e:"🎂",t:"Tug'ilgan kunga tort chiqadi, shamlarni ekranda puflash mumkin.",h:"#types"},
+  {e:"📜",t:"Ismning har bir harfidan boshlanadigan sher yoziladi.",h:"#sher"},
+  {e:"🎶",t:"Har tabrikning o'z rangi, ovozi va musiqasi bor.",h:"#types"},
+  {e:"✨",t:"Hech narsa o'rnatish va ro'yxatdan o'tish shart emas.",h:"#about"}
+];
+let ri=0,rt=null;
+RS.forEach((x,i)=>{const d=document.createElement('i');d.onclick=()=>{showSlide(i);rotStart();};$('rD').appendChild(d);});
+function applySlide(){
+  $('rE').textContent=RS[ri].e;$('rT').textContent=RS[ri].t;$('rot').href=RS[ri].h;
+  [...$('rD').children].forEach((d,i)=>d.classList.toggle('on',i===ri));
+}
+function showSlide(i,instant){
+  ri=i;
+  if(instant){applySlide();return;}
+  const el=$('rIn');
+  el.style.transition='opacity .3s,transform .3s';el.style.opacity=0;el.style.transform='translateY(-12px)';
+  setTimeout(()=>{
+    applySlide();
+    el.style.transition='none';el.style.transform='translateY(12px)';void el.offsetWidth;
+    el.style.transition='opacity .35s,transform .35s';el.style.opacity=1;el.style.transform='none';
+  },320);
+}
+function rotStart(){
+  if(rt)clearInterval(rt);
+  rt=setInterval(()=>{
+    if(document.hidden||document.body.classList.contains('show')||!$('v-home').classList.contains('on'))return;
+    showSlide((ri+1)%RS.length);
+  },3400);
+}
+showSlide(0,true);rotStart();
+
+/* ---------- hisob (Firebase) va sozlash paneli ---------- */
+const fbOn=!!(FIREBASE_CONFIG.apiKey&&FIREBASE_CONFIG.projectId);
+let FB=null,fbUser=null,authReady=false,fbLoading=null;
+function isAdmin(){return !!(fbUser&&fbUser.email&&fbUser.email.toLowerCase()===ADMIN_EMAIL&&fbUser.emailVerified);}
+function loadScript(u){
+  return new Promise((res,rej)=>{
+    const el=document.createElement('script');el.src=u;el.async=false;
+    el.onload=res;el.onerror=()=>rej(new Error('script: '+u));
+    document.head.appendChild(el);
+  });
+}
+/* 1-usul: Google serveridan zamonaviy (modular) kutubxona */
+async function loadModular(){
+  const g='https://www.gstatic.com/firebasejs/'+FB_VER+'/';
+  const [A,Au,Fs]=await Promise.all([import(g+'firebase-app.js'),import(g+'firebase-auth.js'),import(g+'firebase-firestore.js')]);
+  const app=A.initializeApp(FIREBASE_CONFIG);
+  return{Au,Fs,auth:Au.getAuth(app),db:Fs.getFirestore(app)};
+}
+/* 2-usul (zaxira): jsDelivr'dan compat kutubxona, bir xil interfeysga o'ralgan */
+async function loadCompat(){
+  const j='https://cdn.jsdelivr.net/npm/firebase@'+FB_VER+'/';
+  if(!(window.firebase&&window.firebase.auth&&window.firebase.firestore)){
+    await loadScript(j+'firebase-app-compat.js');
+    await loadScript(j+'firebase-auth-compat.js');
+    await loadScript(j+'firebase-firestore-compat.js');
+  }
+  const f=window.firebase;
+  f.initializeApp(FIREBASE_CONFIG);
+  const auth=f.auth(),db=f.firestore();
+  const Au={
+    onAuthStateChanged:(a,cb)=>a.onAuthStateChanged(cb),
+    createUserWithEmailAndPassword:(a,e,p)=>a.createUserWithEmailAndPassword(e,p),
+    signInWithEmailAndPassword:(a,e,p)=>a.signInWithEmailAndPassword(e,p),
+    signOut:a=>a.signOut(),
+    sendPasswordResetEmail:(a,e)=>a.sendPasswordResetEmail(e),
+    sendEmailVerification:u=>u.sendEmailVerification(),
+    GoogleAuthProvider:f.auth.GoogleAuthProvider,
+    signInWithPopup:(a,p)=>a.signInWithPopup(p),
+    signInWithRedirect:(a,p)=>a.signInWithRedirect(p)
+  };
+  const Fs={
+    doc:(d,...p)=>d.doc(p.join('/')),
+    getDoc:async r=>{const sn=await r.get();return{exists:()=>sn.exists,data:()=>sn.data()};},
+    setDoc:(r,d)=>r.set(d),
+    deleteDoc:r=>r.delete()
+  };
+  return{Au,Fs,auth,db};
+}
+function fbInit(){
+  if(!fbOn)return Promise.reject({code:'app/not-configured'});
+  if(fbLoading)return fbLoading;
+  fbLoading=(async()=>{
+    let obj=null,last=null;
+    try{obj=await loadModular();}catch(e){last=e;}
+    if(!obj){try{obj=await loadCompat();}catch(e){last=e;}}
+    if(!obj)throw{code:'app/load-failed',message:last&&last.message};
+    FB=obj;
+    FB.Au.onAuthStateChanged(FB.auth,u=>{fbUser=u;authReady=true;authUI();route();});
+    return FB;
+  })().catch(e=>{fbLoading=null;throw e;});
+  return fbLoading;
+}
+function errMsg(e){
+  const c=(e&&e.code)||'';
+  const m={
+    'auth/invalid-credential':"Email yoki parol noto'g'ri.",
+    'auth/wrong-password':"Email yoki parol noto'g'ri.",
+    'auth/user-not-found':"Bunday hisob topilmadi.",
+    'auth/email-already-in-use':"Bu email bilan hisob allaqachon bor. «Kirish» ni tanlang.",
+    'auth/weak-password':"Parol juda oddiy: kamida 6 belgi bo'lsin.",
+    'auth/invalid-email':"Email manzili noto'g'ri yozilgan.",
+    'auth/missing-password':"Parolni yozing.",
+    'auth/too-many-requests':"Juda ko'p urinish bo'ldi. Birozdan keyin qayta urining.",
+    'auth/network-request-failed':"Internet bilan aloqa yo'q.",
+    'auth/operation-not-allowed':"Firebase'da Email/Parol usuli yoqilmagan.",
+    'auth/operation-not-supported-in-this-environment':"Kirish bu yerda ishlamaydi: saytni fayl yoki ilova ichida ochgansiz. Chrome brauzerida https://berdiyevpg.github.io manzilini oching.",
+    'auth/popup-closed-by-user':"Google oynasi yopildi, qayta urinib ko'ring.",
+    'auth/popup-blocked':"Brauzer Google oynasini to'sdi. Ruxsat bering yoki email bilan kiring.",
+    'auth/unauthorized-domain':"Bu sayt manzili Firebase'da ruxsat etilmagan (Authorized domains).",
+    'permission-denied':"Ruxsat yo'q. Firestore qoidalari va admin emailini tekshiring.",
+    'app/not-configured':"Hisob tizimi hali ulanmagan.",
+    'app/load-failed':"Firebase kutubxonasi yuklanmadi. Internetni tekshiring va saytni oddiy brauzerda (Chrome) oching: berdiyevpg.github.io. Telegram yoki boshqa ilova ichidagi brauzerda ishlamasligi mumkin."
+  };
+  return m[c]||("Xatolik: "+(c||(e&&e.message)||"noma'lum"));
+}
+function setMsg(id,t,ok){const m=$(id);m.textContent=t||'';m.className='msg'+(t?(ok?' ok':' err'):'');}
+function authUI(){
+  const u=fbUser;
+  $('accBtn').textContent=u?'👤':'🔐';
+  $('authOut').classList.toggle('hide',!!u);
+  $('authIn').classList.toggle('hide',!u);
+  if(u){
+    $('aWho').textContent=u.email;
+    const adm=u.email&&u.email.toLowerCase()===ADMIN_EMAIL;
+    $('aVer').textContent=u.emailVerified?(adm?'Siz adminsiz.':'Hisobingiz tasdiqlangan.'):"Email hali tasdiqlanmagan. Emailingizga kelgan xatdagi havolani bosing, so'ng «Tasdiqladim» tugmasini bosing.";
+    $('aVer').className='msg '+(u.emailVerified?'ok':'err');
+    $('aAdminLink').classList.toggle('hide',!isAdmin());
+    $('aRefresh').classList.toggle('hide',!!u.emailVerified);
+    $('aResend').classList.toggle('hide',!!u.emailVerified);
+  }
+}
+let aMode='in';
+function setMode(m){
+  aMode=m;
+  $('aSwitch').textContent=m==='up'?'Hisobingiz bormi? Kirish':'✨ Yangi hisob yarating';
+  $('aPass2').classList.toggle('hide',m!=='up');
+  $('aGo').textContent=m==='up'?'Hisob yaratish':'Kirish';
+  $('aPass').autocomplete=m==='up'?'new-password':'current-password';
+  setMsg('aMsg','');
+}
+$('aSwitch').onclick=()=>setMode(aMode==='up'?'in':'up');
+$('aGoogle').onclick=async()=>{
+  setMsg('aMsg','Kuting...',1);
+  try{
+    await fbInit();
+    const prov=new FB.Au.GoogleAuthProvider();
+    try{await FB.Au.signInWithPopup(FB.auth,prov);}
+    catch(e){
+      if(e&&(e.code==='auth/popup-blocked'||e.code==='auth/operation-not-supported-in-this-environment')){await FB.Au.signInWithRedirect(FB.auth,prov);return;}
+      throw e;
+    }
+    setMsg('aMsg','');
+  }catch(err){if(err&&err.code==='auth/cancelled-popup-request')setMsg('aMsg','');else setMsg('aMsg',errMsg(err));}
+};
+$('accBtn').onclick=()=>{if(location.hash==='#login')route();else location.hash='#login';};
+$('af').onsubmit=async e=>{
+  e.preventDefault();
+  const em=$('aEmail').value.trim(),pw=$('aPass').value;
+  if(!em){setMsg('aMsg','Emailni yozing.');$('aEmail').focus();return;}
+  if(aMode==='up'&&pw!==$('aPass2').value){setMsg('aMsg',"Parollar bir xil emas.");return;}
+  $('aGo').disabled=true;setMsg('aMsg','Kuting...',1);
+  try{
+    await fbInit();
+    if(aMode==='up'){
+      const r=await FB.Au.createUserWithEmailAndPassword(FB.auth,em,pw);
+      try{await FB.Au.sendEmailVerification(r.user);}catch(x){}
+      setMsg('aMsg2',"Hisob yaratildi. Emailingizga tasdiqlash xati yuborildi (Spam papkasini ham tekshiring).",1);
+    }else{
+      await FB.Au.signInWithEmailAndPassword(FB.auth,em,pw);
+    }
+    setMsg('aMsg','');$('aPass').value='';$('aPass2').value='';
+  }catch(err){setMsg('aMsg',errMsg(err));}
+  $('aGo').disabled=false;
+};
+$('aForgot').onclick=async()=>{
+  const em=$('aEmail').value.trim();
+  if(!em){setMsg('aMsg',"Avval yuqoriga emailingizni yozing, keyin shu tugmani bosing.");$('aEmail').focus();return;}
+  setMsg('aMsg','Kuting...',1);
+  try{await fbInit();await FB.Au.sendPasswordResetEmail(FB.auth,em);setMsg('aMsg',"Parolni yangilash havolasi emailingizga yuborildi. Spam papkasini ham tekshiring.",1);}
+  catch(err){setMsg('aMsg',errMsg(err));}
+};
+$('aOut').onclick=async()=>{try{await FB.Au.signOut(FB.auth);setMsg('aMsg2','');}catch(e){setMsg('aMsg2',errMsg(e));}};
+$('aResend').onclick=async()=>{try{await FB.Au.sendEmailVerification(fbUser);setMsg('aMsg2',"Tasdiqlash xati qayta yuborildi.",1);}catch(e){setMsg('aMsg2',errMsg(e));}};
+$('aRefresh').onclick=async()=>{
+  try{await fbUser.reload();await fbUser.getIdToken(true);authUI();route();
+    setMsg('aMsg2',fbUser.emailVerified?'Tasdiqlandi.':'Hali tasdiqlanmagan.',fbUser.emailVerified);}
+  catch(e){setMsg('aMsg2',errMsg(e));}
+};
+
+/* --- sayt sozlamalari (hammaga ko'rinadi, faqat admin o'zgartiradi) --- */
+function domCfg(){
+  const a=k=>{const e=document.querySelector('[data-lk="'+k+'"]');return e?e.getAttribute('href'):'';};
+  return{siteName:$('brandName').textContent,heroTitle:$('heroH1').textContent,heroText:$('heroLead').textContent,banner:'',music:STYLES[styleIdx].id,tg:a('tg'),ig:a('ig'),yt:a('yt'),bot:a('bot')};
+}
+const DEF_CFG=domCfg();
+let CUR_CFG=Object.assign({},DEF_CFG);
+function okUrl(u){return /^https?:\/\//i.test(u||'');}
+function applyCfg(c){
+  c=c||{};
+  const g=k=>(typeof c[k]==='string'&&c[k].trim())?c[k].trim():DEF_CFG[k];
+  const cfg={siteName:g('siteName'),heroTitle:g('heroTitle'),heroText:g('heroText'),banner:(typeof c.banner==='string'?c.banner.trim():''),music:g('music'),tg:g('tg'),ig:g('ig'),yt:g('yt'),bot:g('bot')};
+  $('brandName').textContent=cfg.siteName;
+  document.title=cfg.siteName+' — mushakbozlikli onlayn tabriklar';
+  $('heroH1').textContent=cfg.heroTitle;$('heroLead').textContent=cfg.heroText;
+  const bn=$('banner');bn.textContent=cfg.banner;bn.classList.toggle('hide',!cfg.banner);
+  ['tg','ig','yt','bot'].forEach(k=>{if(okUrl(cfg[k]))document.querySelectorAll('[data-lk="'+k+'"]').forEach(a=>{a.href=cfg[k];});});
+  const mi=STYLES.findIndex(x=>x.id===cfg.music);
+  if(mi>=0){styleIdx=mi;$('mus').textContent='🎵 '+STYLES[mi].name;}
+  CUR_CFG=cfg;
+}
+function fillAdmin(){
+  const c=CUR_CFG;
+  $('cName').value=c.siteName;$('cH1').value=c.heroTitle;$('cLead').value=c.heroText;$('cBanner').value=c.banner;
+  $('cTg').value=c.tg;$('cIg').value=c.ig;$('cYt').value=c.yt;$('cBot').value=c.bot;$('cMusic').value=c.music;
+}
+$('cf').onsubmit=async e=>{
+  e.preventDefault();
+  if(!isAdmin()){setMsg('cMsg',"Ruxsat yo'q.");return;}
+  const d={siteName:$('cName').value.trim(),heroTitle:$('cH1').value.trim(),heroText:$('cLead').value.trim(),banner:$('cBanner').value.trim(),
+    tg:$('cTg').value.trim(),ig:$('cIg').value.trim(),yt:$('cYt').value.trim(),bot:$('cBot').value.trim(),music:$('cMusic').value};
+  for(const k of ['tg','ig','yt','bot'])if(d[k]&&!okUrl(d[k])){setMsg('cMsg',"Havola http:// yoki https:// bilan boshlanishi kerak.");return;}
+  setMsg('cMsg','Saqlanmoqda...',1);
+  try{await fbInit();await FB.Fs.setDoc(FB.Fs.doc(FB.db,'site','config'),d);applyCfg(d);fillAdmin();setMsg('cMsg',"Saqlandi. O'zgarishlar saytda hammaga ko'rinadi.",1);}
+  catch(err){setMsg('cMsg',errMsg(err));}
+};
+$('cReset').onclick=async()=>{
+  if(!isAdmin())return;
+  try{await fbInit();await FB.Fs.deleteDoc(FB.Fs.doc(FB.db,'site','config'));applyCfg({});fillAdmin();setMsg('cMsg',"Standart holat qaytarildi.",1);}
+  catch(err){setMsg('cMsg',errMsg(err));}
+};
+async function loadCfg(){
+  try{const snap=await FB.Fs.getDoc(FB.Fs.doc(FB.db,'site','config'));if(snap.exists())applyCfg(snap.data());}catch(e){}
+}
+const httpOk=/^https?:$/.test(location.protocol);
+if(!httpOk){$('fbNote').textContent="Siz saytni fayl sifatida ochgansiz, shuning uchun kirish ishlamaydi. Chrome'da https://berdiyevpg.github.io manzilini oching.";}
+$('fbNote').classList.toggle('hide',fbOn&&httpOk);
+if(fbOn)setTimeout(()=>{fbInit().then(loadCfg).catch(()=>{});},300);
+
 route();
 try{
   const q=new URLSearchParams(location.search);
   if(q.get('sher')){$('sname').value=q.get('sher').slice(0,30);makePoem();if(location.hash!=='#sher')location.hash='#sher';}
   if(q.get('ism')){play(q.get('ism').slice(0,30),(q.get('t')||'BU SIZ UCHUN').slice(0,40),(q.get('x')||'').slice(0,160));}
 }catch(e){}
+if($('v-home').classList.contains('on')&&!document.body.classList.contains('show')){
+  [400,1000,1600].forEach((d,i)=>setTimeout(()=>{
+    if(document.body.classList.contains('show')||!$('v-home').classList.contains('on'))return;
+    rockets.push({x:W*(.25+.25*i),y:H,vx:0,vy:-H/55,ty:H*(.18+.1*(i%2))});
+  },d));
+}
 </script>
 </body>
 </html>
