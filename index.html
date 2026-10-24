@@ -358,6 +358,14 @@ function pickWish(kind,avoid){
   let w;do{w=a[Math.random()*a.length|0];}while(w===avoid&&a.length>1);
   return w;
 }
+function enc(v){return encodeURIComponent(v).replace(/[!'()*]/g,c=>'%'+c.charCodeAt(0).toString(16).toUpperCase());}
+function fixKind(t){
+  t=(t||'').trim();if(!t)return 'BU SIZ UCHUN';
+  const n=x=>x.toUpperCase().replace(/[!'`ʻʼ’‘\s]/g,'');
+  const q=n(t);
+  const o=KINDS.find(x=>n(x.k)===q)||(q.length>=3?KINDS.find(x=>n(x.k).indexOf(q)===0):null);
+  return o?o.k:t;
+}
 function themeFor(k){const o=KINDS.find(x=>x.k===k);return (o||KINDS[0]).t;}
 const $=id=>document.getElementById(id);
 KINDS.forEach(o=>{
@@ -591,6 +599,7 @@ function leave(){
   timers.forEach(clearTimeout);timers=[];spawn=0.02;cur=null;ready=false;stopMusic();COL=DEFPAL;BG=[0,0,0];document.body.style.background='';
   document.body.classList.remove('show');$('stage').classList.remove('on');$('nav').classList.remove('hide');
   route();
+  try{cfgOnce();}catch(e){}
 }
 addEventListener('hashchange',()=>{if($('stage').classList.contains('on'))leave();else route();});
 $('menuBtn').onclick=()=>$('links').classList.toggle('open');
@@ -637,8 +646,8 @@ $('gift').onclick=()=>{
     if(!cur.message)$('more').classList.remove('hide');
   },3800));
   timers.push(setTimeout(()=>{
-    let u=location.href.split('?')[0].split('#')[0]+'?ism='+encodeURIComponent(cur.name)+'&t='+encodeURIComponent(cur.kind);
-    if(cur.message)u+='&x='+encodeURIComponent(cur.message);
+    let u=location.href.split('?')[0].split('#')[0]+'?ism='+enc(cur.name)+'&t='+enc(cur.kind);
+    if(cur.message)u+='&x='+enc(cur.message);
     $('link').value=u;
     $('share').style.visibility='visible';$('share').classList.add('in2');
   },4800));
@@ -872,7 +881,7 @@ async function copyTxt(t,btn,lab){
 $('sf').onsubmit=e=>{e.preventDefault();makePoem();};
 $('sNew').onclick=makePoem;
 $('sCopy').onclick=()=>copyTxt($('sname').value.trim().toUpperCase()+'\n\n'+poemText,$('sCopy'),'Matnni nusxalash');
-$('sLink').onclick=()=>copyTxt(location.href.split('?')[0].split('#')[0]+'?sher='+encodeURIComponent($('sname').value.trim())+'#sher',$('sLink'),'Havolani nusxalash');
+$('sLink').onclick=()=>copyTxt(location.href.split('?')[0].split('#')[0]+'?sher='+enc($('sname').value.trim())+'#sher',$('sLink'),'Havolani nusxalash');
 
 const RS=[
   {e:"🎆",t:"Ism yozing, mushakbozlikli tabrik tayyor bo'ladi.",h:"#create"},
@@ -924,7 +933,9 @@ async function loadModular(){
   const g='https://www.gstatic.com/firebasejs/'+FB_VER+'/';
   const [A,Au,Fs]=await Promise.all([import(g+'firebase-app.js'),import(g+'firebase-auth.js'),import(g+'firebase-firestore.js')]);
   const app=A.initializeApp(FIREBASE_CONFIG);
-  return{Au,Fs,auth:Au.getAuth(app),db:Fs.getFirestore(app)};
+  try{Fs.setLogLevel('silent');}catch(e){}
+  let db;try{db=Fs.initializeFirestore(app,{experimentalAutoDetectLongPolling:true});}catch(e){db=Fs.getFirestore(app);}
+  return{Au,Fs,auth:Au.getAuth(app),db};
 }
 /* 2-usul (zaxira): jsDelivr'dan compat kutubxona, bir xil interfeysga o'ralgan */
 async function loadCompat(){
@@ -937,6 +948,8 @@ async function loadCompat(){
   const f=window.firebase;
   f.initializeApp(FIREBASE_CONFIG);
   const auth=f.auth(),db=f.firestore();
+  try{f.firestore.setLogLevel('silent');}catch(e){}
+  try{db.settings({experimentalAutoDetectLongPolling:true,merge:true});}catch(e){}
   const Au={
     onAuthStateChanged:(a,cb)=>a.onAuthStateChanged(cb),
     createUserWithEmailAndPassword:(a,e,p)=>a.createUserWithEmailAndPassword(e,p),
@@ -1114,13 +1127,17 @@ async function loadCfg(){
 const httpOk=/^https?:$/.test(location.protocol);
 if(!httpOk){$('fbNote').textContent="Siz saytni fayl sifatida ochgansiz, shuning uchun kirish ishlamaydi. Chrome'da https://berdiyevpg.github.io manzilini oching.";}
 $('fbNote').classList.toggle('hide',fbOn&&httpOk);
-if(fbOn)setTimeout(()=>{fbInit().then(loadCfg).catch(()=>{});},300);
+let cfgDone=false;
+function cfgOnce(){if(cfgDone||!fbOn)return;cfgDone=true;setTimeout(()=>{fbInit().then(loadCfg).catch(()=>{});},300);}
+/* Tabrik havolasi orqali kirgan odamga Firebase kerak emas: faqat bosh sahifaga o'tganda yuklanadi */
+const _qs=new URLSearchParams(location.search);
+if(!(_qs.get('ism')||_qs.get('sher')))cfgOnce();
 
 route();
 try{
   const q=new URLSearchParams(location.search);
   if(q.get('sher')){$('sname').value=q.get('sher').slice(0,30);makePoem();if(location.hash!=='#sher')location.hash='#sher';}
-  if(q.get('ism')){play(q.get('ism').slice(0,30),(q.get('t')||'BU SIZ UCHUN').slice(0,40),(q.get('x')||'').slice(0,160));}
+  if(q.get('ism')){play(q.get('ism').slice(0,30),fixKind((q.get('t')||'').slice(0,40)),(q.get('x')||'').slice(0,160));}
 }catch(e){}
 if($('v-home').classList.contains('on')&&!document.body.classList.contains('show')){
   [400,1000,1600].forEach((d,i)=>setTimeout(()=>{
