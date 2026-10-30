@@ -126,6 +126,7 @@ body.show #foot{display:none}
       <a href="#create" data-v="create">Tabrik yaratish</a>
       <a href="#types" data-v="types">Tabrik turlari</a>
       <a href="#sher" data-v="sher">Sher</a>
+      <a href="#apps" data-v="apps">Ilovalar</a>
       <a href="#about" data-v="about">Sayt haqida</a>
       <a href="#owner" data-v="owner">Ega haqida</a>
     </div>
@@ -167,6 +168,13 @@ body.show #foot{display:none}
 <section class="view" id="v-types">
   <h2>Tabrik turlari</h2>
   <div class="cards" id="cards"></div>
+</section>
+
+<section class="view" id="v-apps">
+  <h2>📱 Ilovalar</h2>
+  <p class="lead" style="font-size:16px;margin:0 0 16px;text-align:left">Ilovalarimni shu yerdan to'g'ridan-to'g'ri yuklab oling. Telegram shart emas.</p>
+  <div id="appList" class="cards"></div>
+  <p id="appNote" class="mut hide" style="font-size:14px;margin-top:16px">Yuklab olingach, telefon sozlamalarida «Noma'lum manbalardan o'rnatish» ruxsatini berish kerak bo'lishi mumkin.</p>
 </section>
 
 <section class="view about" id="v-about">
@@ -377,6 +385,27 @@ KINDS.forEach(o=>{
   $('cards').appendChild(b);
 });
 
+/* ===== ILOVALAR RO'YXATI: yangi ilova qo'shish uchun shu ro'yxatga bitta qator yozing =====
+   name: nomi, desc: qisqa tavsif, url: yuklab olish havolasi (https://...), size: hajmi (ixtiyoriy), ver: versiya (ixtiyoriy)
+   Misol:
+   {name:"Ilova nomi",desc:"Nima qiladi",url:"https://github.com/berdiyevpg/berdiyevpg.github.io/releases/download/v1/ilova.apk",size:"12 MB",ver:"1.0"}
+*/
+const APPS=[
+];
+(function(){
+  const box=$('appList');
+  if(!APPS.length){const p=document.createElement('p');p.className='mut';p.textContent="Ilovalar tez orada qo'shiladi.";box.appendChild(p);return;}
+  APPS.forEach(a=>{
+    if(!a||!/^https:\/\//.test(a.url||''))return;
+    const d=document.createElement('div');d.className='step';d.style.marginBottom='12px';
+    const h=document.createElement('strong');h.style.cssText='display:block;font-size:19px';h.textContent='📱 '+a.name+(a.ver?' · v'+a.ver:'');
+    const t=document.createElement('p');t.style.cssText='margin:6px 0 12px;color:var(--mut)';t.textContent=(a.desc||'')+(a.size?' ('+a.size+')':'');
+    const l=document.createElement('a');l.className='btn';l.href=a.url;l.rel='noopener';l.setAttribute('download','');l.textContent='⬇️ Yuklab olish';
+    d.append(h,t,l);box.appendChild(d);
+  });
+  $('appNote').classList.remove('hide');
+})();
+
 let AC=null,master=null,muted=false,musicTimer=null,lastBoom=0;
 function audioInit(){
   if(AC)return;
@@ -584,7 +613,7 @@ function frame(t){
 }
 requestAnimationFrame(frame);
 
-const VIEWS=['home','create','types','sher','about','owner','login','admin'];
+const VIEWS=['home','create','types','sher','apps','about','owner','login','admin'];
 let timers=[],cur=null,ready=false;
 function route(){
   const v=(location.hash||'#home').slice(1);
