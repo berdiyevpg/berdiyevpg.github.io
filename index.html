@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hammasi siz uchun — mushakbozlikli onlayn tabriklar</title>
 <meta name="google-site-verification" content="CiQxBJxWEFXrAR9jI7L0SeIzOWoO7bcrK9zFAkEpvC0" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%8E%86%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Ism yozing, tabrik turini tanlang va mushakbozlikli tabrik havolasini yaqinlaringizga yuboring.">
 <style>
 :root{--bg:#000;--fg:#fff;--gold:#ffd700;--card:rgba(20,20,24,.78);--line:#3a3a42;--mut:#b8b8c2;box-sizing:border-box}
@@ -17,13 +18,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:5;padding:calc(env(safe-area-ins
 .bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;max-width:900px;margin:auto}
 .navr{display:flex;gap:8px;align-items:center}
 .brand{font-weight:800;font-size:19px;color:var(--gold);text-decoration:none}
-#menuBtn,#accBtn{background:none;border:1px solid var(--line);color:#fff;font-size:22px;border-radius:10px;padding:2px 12px;cursor:pointer}
-#links{display:none;flex-direction:column;gap:2px;max-width:900px;margin:8px auto 0;width:100%}
-#links.open{display:flex}
-#links a{color:#fff;text-decoration:none;padding:12px 8px;border-radius:10px;font-size:17px}
-#links a.on,#links a:hover{background:#25252c;color:var(--gold)}
-@media(min-width:700px){#menuBtn{display:none}.navr{order:3}#links{display:flex;flex-direction:row;margin:0;gap:6px;width:auto}#links a{padding:8px 12px;font-size:16px}.bar{gap:20px}}
-.view{display:none;position:relative;z-index:1;max-width:760px;margin:auto;padding:calc(env(safe-area-inset-top,0px) + 92px) 20px calc(env(safe-area-inset-bottom,0px) + 50px)}
+#accBtn{background:none;border:1px solid var(--line);color:#fff;font-size:22px;border-radius:10px;padding:2px 12px;cursor:pointer}
+#tabs{display:flex;gap:6px;width:100%;order:2;margin:8px 0 0}
+#tabs a{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;text-decoration:none;font-size:13px;font-weight:600;line-height:1.2;padding:9px 2px;min-height:40px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.05)}
+#tabs a:hover{border-color:var(--gold)}
+#tabs a.on{background:var(--gold);border-color:var(--gold);color:#000}
+@media(min-width:700px){#tabs{order:5}.bar{gap:20px}}
+.view{display:none;position:relative;z-index:1;max-width:760px;margin:auto;padding:calc(env(safe-area-inset-top,0px) + 142px) 20px calc(env(safe-area-inset-bottom,0px) + 50px)}
 .view.on{display:block}
 .hero{text-align:center;padding-top:30px}
 h1{font-size:clamp(32px,9vw,54px);line-height:1.1;margin:0 0 14px;color:var(--gold);text-shadow:0 0 22px rgba(255,200,0,.45)}
@@ -120,12 +121,9 @@ body.show #foot{display:none}
 <nav id="nav">
   <div class="bar">
     <a class="brand" href="#home">🎆 <span id="brandName">Hammasi siz uchun</span></a>
-    <div class="navr"><button id="accBtn" aria-label="Kirish">🔐</button><button id="menuBtn" aria-label="Menyu">☰</button></div>
-    <div id="links">
+    <div class="navr"><button id="accBtn" aria-label="Kirish">🔐</button></div>
+    <div id="tabs">
       <a href="#home" data-v="home">Bosh sahifa</a>
-      <a href="#create" data-v="create">Tabrik yaratish</a>
-      <a href="#types" data-v="types">Tabrik turlari</a>
-      <a href="#sher" data-v="sher">Sher</a>
       <a href="#apps" data-v="apps">Ilovalar</a>
       <a href="#about" data-v="about">Sayt haqida</a>
       <a href="#owner" data-v="owner">Ega haqida</a>
@@ -133,12 +131,13 @@ body.show #foot{display:none}
   </div>
 </nav>
 
+<main id="main">
 <section class="view" id="v-home">
   <div class="hero">
     <div id="banner" class="hide"></div>
     <h1 id="heroH1">Mushakbozlikli onlayn tabrik</h1>
     <p class="lead" id="heroLead">Ism yozing, tabrik turini tanlang va yaqinlaringizga havola yuboring. Ochgan odam o'z ismini mushaklar ostida ko'radi.</p>
-    <a class="rot" id="rot" href="#create"><div id="rIn"><span class="re" id="rE">🎆</span><span id="rT"></span></div></a>
+    <a class="rot" id="rot" href="#create"><div id="rIn"><span class="re" id="rE">🎆</span><span id="rT">Ism yozing, mushakbozlikli tabrik tayyor bo'ladi.</span></div></a>
     <div class="dots" id="rD"></div>
     <div class="btns">
       <a class="btn" href="#create">Tabrik yaratish</a>
@@ -252,6 +251,15 @@ body.show #foot{display:none}
     <button class="btn alt" id="cReset" type="button">Standart holatga qaytarish</button>
   </form>
   <p id="cMsg" class="msg"></p>
+
+  <h2 style="margin-top:34px">Ilova qo'shish</h2>
+  <p class="lead" style="font-size:15px;margin:0 0 6px;text-align:left;color:var(--mut)">.apk faylni tanlang, u GitHub'ga yuklanadi va "Ilovalar" bo'limida avtomatik paydo bo'ladi. Saytda yuklab olish havolasi taxminan 1 daqiqadan keyin ishlaydi.</p>
+  <form id="ap">
+    <label class="fl" for="apTok">GitHub token (faqat shu telefonda saqlanadi)</label><input id="apTok" type="password" autocomplete="off" autocapitalize="none" placeholder="github_pat_...">
+    <label class="fl" for="apFile">APK fayl</label><input id="apFile" type="file" accept=".apk">
+    <button class="btn" type="submit" style="margin-top:16px">Yuklash</button>
+  </form>
+  <p id="apMsg" class="msg"></p>
 </section>
 
 <section class="view about" id="v-owner">
@@ -264,6 +272,8 @@ body.show #foot{display:none}
     <a class="btn alt" data-lk="bot" href="https://t.me/Ilovachixakerbot?start=_tgr_7On755wzOWYy" target="_blank" rel="noopener noreferrer">🤖 Telegram bot</a>
   </div>
 </section>
+
+</main>
 
 <div id="foot">
   <p>Ega bilan bog'laning</p>
@@ -302,7 +312,7 @@ body.show #foot{display:none}
  </div>
 </div>
 
-<script>
+<script type="module">
 /* ============ SOZLAMALAR (qo'lda o'zgartirsa bo'ladi) ============ */
 const ADMIN_EMAIL="berdiyevpg3k@gmail.com";
 /* Firebase konsolidan olingan qiymatlarni shu yerga qo'ying: */
@@ -391,21 +401,51 @@ KINDS.forEach(o=>{
    {name:"Ilova nomi",desc:"Nima qiladi",url:"https://github.com/berdiyevpg/berdiyevpg.github.io/releases/download/v1/ilova.apk",size:"12 MB",ver:"1.0"}
 */
 const APPS=[
-{name:"BERDIYEV SUPER APP",desc:"Hammasi bitta ilovada: lenta va chat, kunlik bonus, QR-kod, tabrik va she'rlar, UC hisoblagich.",url:"https://berdiyevpg.github.io/berdiyevsapp.apk",size:"10,7 MB"}
+{name:"BERDIYEV SUPER APP",desc:"Hammasi bitta ilovada: lenta va chat, kunlik bonus, QR-kod, tabrik va she'rlar, UC hisoblagich.",url:"https://berdiyevpg.github.io/berdiyevsapp.apk",size:"11,2 MB"}
 ];
-(function(){
-  const box=$('appList');
-  if(!APPS.length){const p=document.createElement('p');p.className='mut';p.textContent="Ilovalar tez orada qo'shiladi.";box.appendChild(p);return;}
-  APPS.forEach(a=>{
-    if(!a||!/^https:\/\//.test(a.url||''))return;
+const GH_REPO='berdiyevpg/berdiyevpg.github.io';
+function fmtSize(b){return (b/1e6).toFixed(1).replace('.',',')+' MB';}
+function fileOf(u){try{return decodeURIComponent(u.split('/').pop());}catch(e){return u.split('/').pop();}}
+function renderApps(list){
+  const box=$('appList');box.innerHTML='';
+  const ok=list.filter(a=>a&&/^https:\/\//.test(a.url||''));
+  if(!ok.length){const p=document.createElement('p');p.className='mut';p.textContent="Ilovalar tez orada qo'shiladi.";box.appendChild(p);$('appNote').classList.add('hide');return;}
+  ok.forEach(a=>{
     const d=document.createElement('div');d.className='step';d.style.marginBottom='12px';
     const h=document.createElement('strong');h.style.cssText='display:block;font-size:19px';h.textContent='📱 '+a.name+(a.ver?' · v'+a.ver:'');
-    const t=document.createElement('p');t.style.cssText='margin:6px 0 12px;color:var(--mut)';t.textContent=(a.desc||'')+(a.size?' ('+a.size+')':'');
+    const t=document.createElement('p');t.style.cssText='margin:6px 0 12px;color:var(--mut)';t.textContent=(a.desc||'')+(a.size?(a.desc?' ':'')+'('+a.size+')':'');
     const l=document.createElement('a');l.className='btn';l.href=a.url;l.rel='noopener';l.setAttribute('download','');l.textContent='⬇️ Yuklab olish';
     d.append(h,t,l);box.appendChild(d);
   });
   $('appNote').classList.remove('hide');
-})();
+}
+/* GitHub'ga yuklangan har bir .apk fayl avtomatik shu yerda paydo bo'ladi.
+   APPS ro'yxati faqat chiroyli nom/tavsif berish uchun (fayl nomi bo'yicha moslashadi). */
+async function loadApps(){
+  renderApps(APPS);
+  let files=null;
+  try{const c=sessionStorage.getItem('apk_cache');if(c){const o=JSON.parse(c);if(Date.now()-o.t<600000)files=o.f;}}catch(e){}
+  if(!files){
+    try{
+      const r=await fetch('https://api.github.com/repos/'+GH_REPO+'/contents/');
+      if(!r.ok)throw new Error(r.status);
+      const j=await r.json();
+      files=j.filter(x=>x.type==='file'&&/\.apk$/i.test(x.name)).map(x=>({name:x.name,size:x.size}));
+      try{sessionStorage.setItem('apk_cache',JSON.stringify({t:Date.now(),f:files}));}catch(e){}
+    }catch(e){return;}
+  }
+  const used=new Set(),out=[];
+  APPS.forEach(a=>{
+    const f=files.find(x=>x.name.toLowerCase()===fileOf(a.url).toLowerCase());
+    if(f){used.add(f.name);out.push(Object.assign({},a,{size:fmtSize(f.size)}));}
+  });
+  files.filter(f=>!used.has(f.name)).sort((a,b)=>a.name.localeCompare(b.name)).forEach(f=>{
+    out.push({name:f.name.replace(/\.apk$/i,'').replace(/[_-]+/g,' '),desc:'',url:'https://'+GH_REPO.split('/')[0]+'.github.io/'+encodeURIComponent(f.name),size:fmtSize(f.size)});
+  });
+  if(out.length)renderApps(out);
+}
+let appsDone=false;
+function appsOnce(){if(appsDone)return;appsDone=true;loadApps();}
 
 let AC=null,master=null,muted=false,musicTimer=null,lastBoom=0;
 function audioInit(){
@@ -612,18 +652,31 @@ function frame(t){
   for(let i=sparks.length-1;i>=0;i--)if(sparks[i].l<=0)sparks.splice(i,1);
   requestAnimationFrame(frame);
 }
-requestAnimationFrame(frame);
+/* Otashbozlik/yulduzlar sahifa to'liq yuklangandan keyin boshlanadi */
+let fxOn=false;
+function startFx(){
+  if(fxOn)return;fxOn=true;requestAnimationFrame(frame);
+  if($('v-home').classList.contains('on')&&!document.body.classList.contains('show')){
+    [400,1000,1600].forEach((d,i)=>setTimeout(()=>{
+      if(document.body.classList.contains('show')||!$('v-home').classList.contains('on'))return;
+      rockets.push({x:W*(.25+.25*i),y:H,vx:0,vy:-H/55,ty:H*(.18+.1*(i%2))});
+    },d));
+  }
+}
+function fxLater(){(window.requestIdleCallback||(f=>setTimeout(f,200)))(startFx,{timeout:1500});}
+if(document.readyState==='complete')fxLater();else addEventListener('load',fxLater,{once:true});
 
 const VIEWS=['home','create','types','sher','apps','about','owner','login','admin'];
 let timers=[],cur=null,ready=false;
 function route(){
   const v=(location.hash||'#home').slice(1);
   let cur=VIEWS.includes(v)?v:'home';
+  if((cur==='login'||cur==='admin')&&fbOn&&!fbLoading&&httpOk)fbInit().catch(()=>{});
   if(cur==='admin'&&!isAdmin()){if(authReady)history.replaceState(null,'','#login');cur='login';}
   if(cur==='admin')fillAdmin();
   VIEWS.forEach(n=>$('v-'+n).classList.toggle('on',n===cur));
-  document.querySelectorAll('#links a').forEach(a=>a.classList.toggle('on',a.dataset.v===cur));
-  $('links').classList.remove('open');
+  document.querySelectorAll('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.v===cur));
+  if(cur==='apps')appsOnce();
   window.scrollTo(0,0);
 }
 function leave(){
@@ -633,9 +686,9 @@ function leave(){
   try{cfgOnce();}catch(e){}
 }
 addEventListener('hashchange',()=>{if($('stage').classList.contains('on'))leave();else route();});
-$('menuBtn').onclick=()=>$('links').classList.toggle('open');
 
 function play(name,kind,message){
+  startFx();
   timers.forEach(clearTimeout);timers=[];ready=false;
   cur={name,kind,message:message||''};
   stopMusic();
@@ -704,7 +757,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('button,a,input,select,textarea,nav,#gift,#snd,#mus'))return;
   if($('stage').classList.contains('on')&&!ready)return;
   if(rockets.length>=15)return;
-  rockets.push({x:e.clientX,y:H,vx:0,vy:-H/55,ty:Math.min(e.clientY,H*0.9)});whistle();
+  startFx();rockets.push({x:e.clientX,y:H,vx:0,vy:-H/55,ty:Math.min(e.clientY,H*0.9)});whistle();
 });
 $('f').onsubmit=e=>{
   e.preventDefault();
@@ -1152,6 +1205,30 @@ $('cReset').onclick=async()=>{
   try{await fbInit();await FB.Fs.deleteDoc(FB.Fs.doc(FB.db,'site','config'));applyCfg({});fillAdmin();setMsg('cMsg',"Standart holat qaytarildi.",1);}
   catch(err){setMsg('cMsg',errMsg(err));}
 };
+try{$('apTok').value=localStorage.getItem('gh_tok')||'';}catch(e){}
+$('ap').onsubmit=async e=>{
+  e.preventDefault();
+  if(!isAdmin())return;
+  const f=$('apFile').files[0],tok=$('apTok').value.trim();
+  if(!tok){setMsg('apMsg','GitHub tokenni kiriting.');return;}
+  if(!f||!/\.apk$/i.test(f.name)){setMsg('apMsg','.apk fayl tanlang.');return;}
+  if(f.size>95*1048576){setMsg('apMsg','Fayl 95 MB dan katta bo\'lmasligi kerak.');return;}
+  try{localStorage.setItem('gh_tok',tok);}catch(e){}
+  setMsg('apMsg','Yuklanmoqda... (kuting)',1);
+  try{
+    const b64=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=no;r.readAsDataURL(f);});
+    const url='https://api.github.com/repos/'+GH_REPO+'/contents/'+encodeURIComponent(f.name);
+    const H={Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'};
+    let sha;
+    const g=await fetch(url,{headers:H});
+    if(g.ok)sha=(await g.json()).sha;
+    const r=await fetch(url,{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},H),body:JSON.stringify({message:'Ilova: '+f.name,content:b64,sha})});
+    if(!r.ok){const j=await r.json().catch(()=>({}));throw new Error(r.status===401?'Token noto\'g\'ri yoki muddati tugagan.':r.status===403||r.status===404?'Tokenda ruxsat yo\'q (Contents: Read and write kerak).':(j.message||r.status));}
+    try{sessionStorage.removeItem('apk_cache');}catch(e){}
+    appsDone=false;appsOnce();$('apFile').value='';
+    setMsg('apMsg',"Yuklandi! \""+f.name+"\" Ilovalar bo'limida paydo bo'ldi.",1);
+  }catch(err){setMsg('apMsg',err&&err.message?err.message:'Xatolik. Qayta urinib ko\'ring.');}
+};
 async function loadCfg(){
   try{const snap=await FB.Fs.getDoc(FB.Fs.doc(FB.db,'site','config'));if(snap.exists())applyCfg(snap.data());}catch(e){}
 }
@@ -1159,7 +1236,23 @@ const httpOk=/^https?:$/.test(location.protocol);
 if(!httpOk){$('fbNote').textContent="Siz saytni fayl sifatida ochgansiz, shuning uchun kirish ishlamaydi. Chrome'da https://berdiyevpg.github.io manzilini oching.";}
 $('fbNote').classList.toggle('hide',fbOn&&httpOk);
 let cfgDone=false;
-function cfgOnce(){if(cfgDone||!fbOn)return;cfgDone=true;setTimeout(()=>{fbInit().then(loadCfg).catch(()=>{});},300);}
+function fsVal(v){if(!v)return '';return v.stringValue!==undefined?v.stringValue:v.booleanValue!==undefined?v.booleanValue:v.integerValue!==undefined?+v.integerValue:'';}
+/* Sayt sozlamalari: Firebase SDK yuklamasdan, oddiy REST orqali (yengil) o'qiladi */
+async function loadCfgRest(){
+  try{
+    const base='https://firestore.googleapis.com/v1/projects/'+FIREBASE_CONFIG.projectId+'/databases/(default)/documents';
+    const r=await fetch(base+':batchGet?key='+FIREBASE_CONFIG.apiKey,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({documents:[base+'/site/config']})});
+    if(!r.ok)return;
+    const j=await r.json();const f=j[0]&&j[0].found&&j[0].found.fields;
+    if(f){const o={};Object.keys(f).forEach(k=>{o[k]=fsVal(f[k]);});applyCfg(o);}
+  }catch(e){}
+}
+function hasSession(){try{for(let i=0;i<localStorage.length;i++){if((localStorage.key(i)||'').indexOf('firebase:authUser:')===0)return true;}}catch(e){}return false;}
+function cfgOnce(){
+  if(cfgDone||!fbOn||!httpOk)return;cfgDone=true;
+  const go=()=>{loadCfgRest();if(hasSession())fbInit().catch(()=>{});};
+  if(document.readyState==='complete')setTimeout(go,600);else addEventListener('load',()=>setTimeout(go,600),{once:true});
+}
 /* Tabrik havolasi orqali kirgan odamga Firebase kerak emas: faqat bosh sahifaga o'tganda yuklanadi */
 const _qs=new URLSearchParams(location.search);
 if(!(_qs.get('ism')||_qs.get('sher')))cfgOnce();
@@ -1170,12 +1263,6 @@ try{
   if(q.get('sher')){$('sname').value=q.get('sher').slice(0,30);makePoem();if(location.hash!=='#sher')location.hash='#sher';}
   if(q.get('ism')){play(q.get('ism').slice(0,30),fixKind((q.get('t')||'').slice(0,40)),(q.get('x')||'').slice(0,160));}
 }catch(e){}
-if($('v-home').classList.contains('on')&&!document.body.classList.contains('show')){
-  [400,1000,1600].forEach((d,i)=>setTimeout(()=>{
-    if(document.body.classList.contains('show')||!$('v-home').classList.contains('on'))return;
-    rockets.push({x:W*(.25+.25*i),y:H,vx:0,vy:-H/55,ty:H*(.18+.1*(i%2))});
-  },d));
-}
 </script>
 </body>
 </html>
