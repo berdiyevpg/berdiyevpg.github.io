@@ -18,6 +18,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:5;padding:calc(env(safe-area-ins
 .bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;max-width:900px;margin:auto}
 .navr{display:flex;gap:8px;align-items:center}
 .brand{font-weight:800;font-size:19px;color:var(--gold);text-decoration:none}
+#langBtn{background:none;border:1px solid var(--line);color:#fff;font-size:14px;font-weight:700;border-radius:10px;padding:8px 10px;cursor:pointer}
+#langBox{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:20px}
+#langBox .lb{width:100%;max-width:340px;text-align:center}
+#langBox p{color:#fff;font-size:17px;margin:0 0 16px}
+#langBox .btn{display:block;width:100%;margin:10px 0;padding:14px;font-size:18px;border-radius:12px}
 #accBtn{background:none;border:1px solid var(--line);color:#fff;font-size:22px;border-radius:10px;padding:2px 12px;cursor:pointer}
 #tabs{display:flex;gap:6px;width:100%;order:2;margin:8px 0 0}
 #tabs a{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;text-decoration:none;font-size:13px;font-weight:600;line-height:1.2;padding:9px 2px;min-height:40px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.05)}
@@ -121,12 +126,12 @@ body.show #foot{display:none}
 <nav id="nav">
   <div class="bar">
     <a class="brand" href="#home">🎆 <span id="brandName">Hammasi siz uchun</span></a>
-    <div class="navr"><button id="accBtn" aria-label="Kirish">🔐</button></div>
+    <div class="navr"><button id="langBtn" type="button" aria-label="Til / Язык / Language">🌐 UZ</button><button id="accBtn" aria-label="Kirish">🔐</button></div>
     <div id="tabs">
-      <a href="#home" data-v="home">Bosh sahifa</a>
-      <a href="#apps" data-v="apps">Ilovalar</a>
-      <a href="#about" data-v="about">Sayt haqida</a>
-      <a href="#owner" data-v="owner">Ega haqida</a>
+      <a href="#home" data-v="home" data-i18n="tHome">Bosh sahifa</a>
+      <a href="#apps" data-v="apps" data-i18n="tApps">Ilovalar</a>
+      <a href="#about" data-v="about" data-i18n="tAbout">Sayt haqida</a>
+      <a href="#owner" data-v="owner" data-i18n="tOwner">Ega haqida</a>
     </div>
   </div>
 </nav>
@@ -140,63 +145,63 @@ body.show #foot{display:none}
     <a class="rot" id="rot" href="#create"><div id="rIn"><span class="re" id="rE">🎆</span><span id="rT">Ism yozing, mushakbozlikli tabrik tayyor bo'ladi.</span></div></a>
     <div class="dots" id="rD"></div>
     <div class="btns">
-      <a class="btn" href="#create">Tabrik yaratish</a>
-      <a class="btn alt" href="#types">Tabrik turlari</a>
-      <a class="btn alt" href="#sher">📜 Ism bo'yicha sher</a>
+      <a class="btn" href="#create" data-i18n="bCreate">Tabrik yaratish</a>
+      <a class="btn alt" href="#types" data-i18n="bTypes">Tabrik turlari</a>
+      <a class="btn alt" href="#sher" data-i18n="bSher">📜 Ism bo'yicha sher</a>
     </div>
-    <p class="lead" style="font-size:15px;margin:22px auto 0;color:var(--mut)">✨ Ekranning istalgan bo'sh joyiga bossangiz, o'sha yerga mushak otiladi.</p>
+    <p class="lead" data-i18n="hint" style="font-size:15px;margin:22px auto 0;color:var(--mut)">✨ Ekranning istalgan bo'sh joyiga bossangiz, o'sha yerga mushak otiladi.</p>
   </div>
   <div class="steps">
-    <div class="step"><b>1. Ism va xabar yozing</b><span>Tabriklanadigan odamning ismi va o'z xabaringiz.</span></div>
-    <div class="step"><b>2. Tur tanlang</b><span>Tug'ilgan kun, bayram yoki boshqa tabrik.</span></div>
-    <div class="step"><b>3. Havolani yuboring</b><span>Ochgan odam avval sovg'ani ochadi, keyin mushaklar va tabrik chiqadi.</span></div>
+    <div class="step"><b data-i18n="st1b">1. Ism va xabar yozing</b><span data-i18n="st1s">Tabriklanadigan odamning ismi va o'z xabaringiz.</span></div>
+    <div class="step"><b data-i18n="st2b">2. Tur tanlang</b><span data-i18n="st2s">Tug'ilgan kun, bayram yoki boshqa tabrik.</span></div>
+    <div class="step"><b data-i18n="st3b">3. Havolani yuboring</b><span data-i18n="st3s">Ochgan odam avval sovg'ani ochadi, keyin mushaklar va tabrik chiqadi.</span></div>
   </div>
   <footer>berdiyevpg.github.io</footer>
 </section>
 
 <section class="view" id="v-create">
-  <h2>Tabrik yaratish</h2>
+  <h2 data-i18n="bCreate">Tabrik yaratish</h2>
   <form id="f">
-    <input id="name" placeholder="Ism yozing" maxlength="30" autocomplete="off">
-    <textarea id="msgIn" rows="3" maxlength="160" placeholder="O'z xabaringiz (ixtiyoriy)"></textarea>
+    <input id="name" data-i18n-ph="phName" placeholder="Ism yozing" maxlength="30" autocomplete="off">
+    <textarea id="msgIn" rows="3" maxlength="160" data-i18n-ph="phMsg" placeholder="O'z xabaringiz (ixtiyoriy)"></textarea>
     <select id="kind"></select>
-    <button class="btn" type="submit">Boshlash</button>
+    <button class="btn" type="submit" data-i18n="start">Boshlash</button>
   </form>
 </section>
 
 <section class="view" id="v-types">
-  <h2>Tabrik turlari</h2>
+  <h2 data-i18n="bTypes">Tabrik turlari</h2>
   <div class="cards" id="cards"></div>
 </section>
 
 <section class="view" id="v-apps">
-  <h2>📱 Ilovalar</h2>
-  <p class="lead" style="font-size:16px;margin:0 0 16px;text-align:left">Ilovalarimni shu yerdan to'g'ridan-to'g'ri yuklab oling. Telegram shart emas.</p>
+  <h2 data-i18n="hApps">📱 Ilovalar</h2>
+  <p class="lead" data-i18n="appsLead" style="font-size:16px;margin:0 0 16px;text-align:left">Ilovalarimni shu yerdan to'g'ridan-to'g'ri yuklab oling. Telegram shart emas.</p>
   <div id="appList" class="cards"></div>
-  <p id="appNote" class="mut hide" style="font-size:14px;margin-top:16px">Yuklab olingach, telefon sozlamalarida «Noma'lum manbalardan o'rnatish» ruxsatini berish kerak bo'lishi mumkin.</p>
+  <p id="appNote" data-i18n="appNote" class="mut hide" style="font-size:14px;margin-top:16px">Yuklab olingach, telefon sozlamalarida «Noma'lum manbalardan o'rnatish» ruxsatini berish kerak bo'lishi mumkin.</p>
 </section>
 
 <section class="view about" id="v-about">
-  <h2>Sayt haqida</h2>
-  <p>«Hammasi siz uchun» turli bayramlar va tadbirlar uchun onlayn tabriklar yaratishga mo'ljallangan veb-sahifa.</p>
-  <p>Siz tabrik turini tanlab, maxsus havola yaratasiz va uni yaqinlaringizga yuborasiz. Havolani ochgan odam mushakbozlik va o'z ismini ko'radi.</p>
-  <p>Saytdan foydalanish uchun brauzer orqali manzilga kirish kifoya, hech narsa o'rnatish yoki ro'yxatdan o'tish shart emas.</p>
-  <div class="btns"><a class="btn" href="#create">Tabrik yaratish</a></div>
+  <h2 data-i18n="tAbout">Sayt haqida</h2>
+  <p data-i18n="ab1">«Hammasi siz uchun» turli bayramlar va tadbirlar uchun onlayn tabriklar yaratishga mo'ljallangan veb-sahifa.</p>
+  <p data-i18n="ab2">Siz tabrik turini tanlab, maxsus havola yaratasiz va uni yaqinlaringizga yuborasiz. Havolani ochgan odam mushakbozlik va o'z ismini ko'radi.</p>
+  <p data-i18n="ab3">Saytdan foydalanish uchun brauzer orqali manzilga kirish kifoya, hech narsa o'rnatish yoki ro'yxatdan o'tish shart emas.</p>
+  <div class="btns"><a class="btn" href="#create" data-i18n="bCreate">Tabrik yaratish</a></div>
 </section>
 
 <section class="view" id="v-sher">
-  <h2>Ism bo'yicha sher</h2>
-  <p class="lead" style="font-size:16px;margin:0 0 16px;text-align:left">Ism yozing: sherning har bir qatori ismning bitta harfidan boshlanadi.</p>
+  <h2 data-i18n="hSher">Ism bo'yicha sher</h2>
+  <p class="lead" data-i18n="sherLead" style="font-size:16px;margin:0 0 16px;text-align:left">Ism yozing: sherning har bir qatori ismning bitta harfidan boshlanadi.</p>
   <form id="sf">
-    <input id="sname" placeholder="Ism yozing (lotin harflarida)" maxlength="30" autocomplete="off">
-    <button class="btn" type="submit">Sher yozish</button>
+    <input id="sname" data-i18n-ph="phSher" placeholder="Ism yozing (lotin harflarida)" maxlength="30" autocomplete="off">
+    <button class="btn" type="submit" data-i18n="sherGo">Sher yozish</button>
   </form>
   <p id="shint" style="text-align:center;color:var(--mut);margin:12px 0 0"></p>
   <div id="poem" class="poem hide"></div>
   <div id="sact" class="btns hide" style="margin-top:16px">
-    <button class="btn" id="sNew" type="button">🔄 Boshqa sher</button>
-    <button class="btn alt" id="sCopy" type="button">Matnni nusxalash</button>
-    <button class="btn alt" id="sLink" type="button">Havolani nusxalash</button>
+    <button class="btn" id="sNew" type="button" data-i18n="sNew">🔄 Boshqa sher</button>
+    <button class="btn alt" id="sCopy" type="button" data-i18n="sCopy">Matnni nusxalash</button>
+    <button class="btn alt" id="sLink" type="button" data-i18n="copyLink">Havolani nusxalash</button>
   </div>
 </section>
 
@@ -235,6 +240,7 @@ body.show #foot{display:none}
 
 <section class="view" id="v-admin">
   <h2>Sozlash paneli</h2>
+  <p class="acc" id="stBox" style="margin:0 0 14px">👥 Saytga kirganlar soni: <b id="stN" style="color:var(--gold)">...</b></p>
   <p class="lead" style="font-size:15px;margin:0 0 6px;text-align:left;color:var(--mut)">Bu yerda o'zgartirganingiz saytda hammaga ko'rinadi. Bo'sh qoldirilgan maydon standart qiymatga qaytadi.</p>
   <form id="cf">
     <label class="fl" for="cName">Sayt nomi</label><input id="cName" maxlength="40">
@@ -263,11 +269,11 @@ body.show #foot{display:none}
 </section>
 
 <section class="view about" id="v-owner">
-  <h2>Ega haqida</h2>
-  <p>Saytga savol yoki taklifingiz bo'lsa, ijtimoiy tarmoqlar orqali bog'lanishingiz mumkin.</p>
+  <h2 data-i18n="tOwner">Ega haqida</h2>
+  <p data-i18n="ow1">Saytga savol yoki taklifingiz bo'lsa, ijtimoiy tarmoqlar orqali bog'lanishingiz mumkin.</p>
   <div class="btns" style="margin-top:20px">
-    <a class="btn alt" data-lk="tg" href="https://t.me/berdiyevpg_github_io" target="_blank" rel="noopener noreferrer">✈️ Telegram kanal</a>
-    <a class="btn alt" data-lk="ig" href="https://www.instagram.com/berdiyev_pubg01" target="_blank" rel="noopener noreferrer">📸 Instagram sahifam</a>
+    <a class="btn alt" data-lk="tg" href="https://t.me/berdiyevpg_github_io" target="_blank" rel="noopener noreferrer" data-i18n="oTg">✈️ Telegram kanal</a>
+    <a class="btn alt" data-lk="ig" href="https://www.instagram.com/berdiyev_pubg01" target="_blank" rel="noopener noreferrer" data-i18n="oIg">📸 Instagram sahifam</a>
     <a class="btn alt" data-lk="yt" href="https://youtube.com/@berdiyev_pubg" target="_blank" rel="noopener noreferrer">▶️ YouTube</a>
     <a class="btn alt" data-lk="bot" href="https://t.me/Ilovachixakerbot?start=_tgr_7On755wzOWYy" target="_blank" rel="noopener noreferrer">🤖 Telegram bot</a>
   </div>
@@ -276,7 +282,7 @@ body.show #foot{display:none}
 </main>
 
 <div id="foot">
-  <p>Ega bilan bog'laning</p>
+  <p data-i18n="contact">Ega bilan bog'laning</p>
   <div class="apps">
     <a class="app" data-lk="tg" href="https://t.me/berdiyevpg_github_io" target="_blank" rel="noopener noreferrer" aria-label="Telegram kanal">
       <i style="background:#229ed9"><svg viewBox="0 0 24 24"><path fill="#fff" d="M21 3 3 11l6 2 1 7 3-4 5 4z"/></svg></i>Telegram</a>
@@ -289,25 +295,34 @@ body.show #foot{display:none}
   </div>
 </div>
 
+<div id="langBox" class="hide" role="dialog" aria-modal="true">
+  <div class="lb">
+    <p>Tilni tanlang · Выберите язык · Choose language</p>
+    <button class="btn" type="button" data-l="ru">Русский</button>
+    <button class="btn" type="button" data-l="en">English</button>
+    <button class="btn" type="button" data-l="uz">O'zbekcha</button>
+  </div>
+</div>
+
 <div id="stage">
  <button id="snd" aria-label="Ovoz">🔊</button>
  <button id="mus" aria-label="Musiqa uslubi">🎵 Phonk</button>
  <div id="wrap">
-  <div id="gift" class="hide"><div id="giftbox">🎁</div><div id="giftHint">Sovg'ani ochish uchun bosing</div></div>
+  <div id="gift" class="hide"><div id="giftbox">🎁</div><div id="giftHint" data-i18n="giftHint">Sovg'ani ochish uchun bosing</div></div>
   <div id="title"></div>
   <div id="sub"></div>
   <div id="msg"></div>
-  <button class="btn alt hide" id="more">🔄 Boshqa tilak</button>
+  <button class="btn alt hide" id="more" data-i18n="more">🔄 Boshqa tilak</button>
   <div id="cake" class="hide">
     <div class="cakeart"><div class="candles"><i></i><i></i><i></i></div><div class="t2"></div><div class="t1"></div></div>
-    <button class="btn" id="blow">🌬️ Shamni pufla</button>
+    <button class="btn" id="blow" data-i18n="blow">🌬️ Shamni pufla</button>
   </div>
-  <div id="tap">✨ Ekranga bosing, mushak otiladi</div>
+  <div id="tap" data-i18n="tap">✨ Ekranga bosing, mushak otiladi</div>
   <div id="share">
     <input id="link" readonly>
-    <button class="btn" id="copy">Havolani nusxalash</button>
-    <a class="btn alt go" href="#create">Yangi tabrik yaratish</a>
-    <a class="btn alt go" href="#home">Bosh sahifa</a>
+    <button class="btn" id="copy" data-i18n="copyLink">Havolani nusxalash</button>
+    <a class="btn alt go" href="#create" data-i18n="newG">Yangi tabrik yaratish</a>
+    <a class="btn alt go" href="#home" data-i18n="tHome">Bosh sahifa</a>
   </div>
  </div>
 </div>
@@ -373,7 +388,7 @@ const WISHES={
 "Yangi boshlanish va baxtli kunlar bilan tabriklayman!"]
 };
 function pickWish(kind,avoid){
-  const a=WISHES[kind]||WISHES["BU SIZ UCHUN"];
+  const a=(WI[LANG]&&WI[LANG][kind])||WISHES[kind]||WISHES["BU SIZ UCHUN"];
   let w;do{w=a[Math.random()*a.length|0];}while(w===avoid&&a.length>1);
   return w;
 }
@@ -387,13 +402,29 @@ function fixKind(t){
 }
 function themeFor(k){const o=KINDS.find(x=>x.k===k);return (o||KINDS[0]).t;}
 const $=id=>document.getElementById(id);
-KINDS.forEach(o=>{
-  const op=document.createElement('option');op.value=o.k;op.textContent=o.e+' '+o.n;$('kind').appendChild(op);
-  const b=document.createElement('button');b.className='card';b.style.borderLeft='4px solid '+o.t.acc;
-  b.innerHTML='<span class="em">'+o.e+'</span><span><strong>'+o.n+'</strong><small>'+o.d+'</small></span>';
-  b.onclick=()=>{$('kind').value=o.k;location.hash='#create';};
-  $('cards').appendChild(b);
-});
+const I18N={"uz": {"tHome": "Bosh sahifa", "tApps": "Ilovalar", "tAbout": "Sayt haqida", "tOwner": "Ega haqida", "h1": "Mushakbozlikli onlayn tabrik", "hl": "Ism yozing, tabrik turini tanlang va yaqinlaringizga havola yuboring. Ochgan odam o'z ismini mushaklar ostida ko'radi.", "bCreate": "Tabrik yaratish", "bTypes": "Tabrik turlari", "bSher": "📜 Ism bo'yicha sher", "hint": "✨ Ekranning istalgan bo'sh joyiga bossangiz, o'sha yerga mushak otiladi.", "st1b": "1. Ism va xabar yozing", "st1s": "Tabriklanadigan odamning ismi va o'z xabaringiz.", "st2b": "2. Tur tanlang", "st2s": "Tug'ilgan kun, bayram yoki boshqa tabrik.", "st3b": "3. Havolani yuboring", "st3s": "Ochgan odam avval sovg'ani ochadi, keyin mushaklar va tabrik chiqadi.", "phName": "Ism yozing", "phMsg": "O'z xabaringiz (ixtiyoriy)", "start": "Boshlash", "hApps": "📱 Ilovalar", "appsLead": "Ilovalarimni shu yerdan to'g'ridan-to'g'ri yuklab oling. Telegram shart emas.", "appNote": "Yuklab olingach, telefon sozlamalarida «Noma'lum manbalardan o'rnatish» ruxsatini berish kerak bo'lishi mumkin.", "noApps": "Ilovalar tez orada qo'shiladi.", "dl": "⬇️ Yuklab olish", "ab1": "«Hammasi siz uchun» turli bayramlar va tadbirlar uchun onlayn tabriklar yaratishga mo'ljallangan veb-sahifa.", "ab2": "Siz tabrik turini tanlab, maxsus havola yaratasiz va uni yaqinlaringizga yuborasiz. Havolani ochgan odam mushakbozlik va o'z ismini ko'radi.", "ab3": "Saytdan foydalanish uchun brauzer orqali manzilga kirish kifoya, hech narsa o'rnatish yoki ro'yxatdan o'tish shart emas.", "hSher": "Ism bo'yicha sher", "sherLead": "Ism yozing: sherning har bir qatori ismning bitta harfidan boshlanadi.", "phSher": "Ism yozing (lotin harflarida)", "sherGo": "Sher yozish", "sNew": "🔄 Boshqa sher", "sCopy": "Matnni nusxalash", "copyLink": "Havolani nusxalash", "copied": "Nusxalandi!", "copyFail": "Nusxalab bo'lmadi", "copyHint": "Havolani bosib nusxalang", "hintLatin": "Ismni lotin harflarida yozing.", "hintName": "Avval ism yozing.", "ow1": "Saytga savol yoki taklifingiz bo'lsa, ijtimoiy tarmoqlar orqali bog'lanishingiz mumkin.", "oTg": "✈️ Telegram kanal", "oIg": "📸 Instagram sahifam", "contact": "Ega bilan bog'laning", "giftHint": "Sovg'ani ochish uchun bosing", "more": "🔄 Boshqa tilak", "blow": "🌬️ Shamni pufla", "tap": "✨ Ekranga bosing, mushak otiladi", "wish": "🎂 Tilagingizni ayting!", "newG": "Yangi tabrik yaratish", "rs0": "Ism yozing, mushakbozlikli tabrik tayyor bo'ladi.", "rs1": "Havolani ochgan odam avval sovg'ani ochadi, keyin tabrik chiqadi.", "rs2": "Tug'ilgan kunga tort chiqadi, shamlarni ekranda puflash mumkin.", "rs3": "Ismning har bir harfidan boshlanadigan sher yoziladi.", "rs4": "Har tabrikning o'z rangi, ovozi va musiqasi bor.", "rs5": "Hech narsa o'rnatish va ro'yxatdan o'tish shart emas."}, "ru": {"tHome": "Главная", "tApps": "Приложения", "tAbout": "О сайте", "tOwner": "О владельце", "h1": "Онлайн-поздравление с фейерверком", "hl": "Введите имя, выберите вид поздравления и отправьте ссылку близким. Тот, кто её откроет, увидит своё имя под фейерверком.", "bCreate": "Создать поздравление", "bTypes": "Виды поздравлений", "bSher": "📜 Стих по имени", "hint": "✨ Нажмите на любое пустое место экрана — туда запустится салют.", "st1b": "1. Напишите имя и сообщение", "st1s": "Имя того, кого поздравляете, и ваше сообщение.", "st2b": "2. Выберите вид", "st2s": "День рождения, праздник или другое поздравление.", "st3b": "3. Отправьте ссылку", "st3s": "Открывший сначала откроет подарок, затем появятся салют и поздравление.", "phName": "Введите имя", "phMsg": "Ваше сообщение (по желанию)", "start": "Начать", "hApps": "📱 Приложения", "appsLead": "Скачивайте мои приложения прямо отсюда. Telegram не нужен.", "appNote": "После загрузки в настройках телефона может понадобиться разрешить «Установку из неизвестных источников».", "noApps": "Приложения скоро появятся.", "dl": "⬇️ Скачать", "ab1": "«Hammasi siz uchun» — веб-страница для создания онлайн-поздравлений к разным праздникам и событиям.", "ab2": "Вы выбираете вид поздравления, создаёте особую ссылку и отправляете её близким. Открывший ссылку увидит салют и своё имя.", "ab3": "Чтобы пользоваться сайтом, достаточно открыть адрес в браузере: ничего устанавливать и регистрироваться не нужно.", "hSher": "Стих по имени", "sherLead": "Введите имя: каждая строка стиха начинается с одной буквы имени.", "phSher": "Введите имя (латиницей)", "sherGo": "Написать стих", "sNew": "🔄 Другой стих", "sCopy": "Скопировать текст", "copyLink": "Скопировать ссылку", "copied": "Скопировано!", "copyFail": "Не удалось скопировать", "copyHint": "Нажмите на ссылку и скопируйте", "hintLatin": "Введите имя латиницей.", "hintName": "Сначала введите имя.", "ow1": "Если у вас есть вопрос или предложение по сайту, свяжитесь со мной через соцсети.", "oTg": "✈️ Telegram-канал", "oIg": "📸 Моя страница в Instagram", "contact": "Связаться с владельцем", "giftHint": "Нажмите, чтобы открыть подарок", "more": "🔄 Другое пожелание", "blow": "🌬️ Задуть свечи", "tap": "✨ Нажмите на экран — запустится салют", "wish": "🎂 Загадайте желание!", "newG": "Создать новое поздравление", "rs0": "Введите имя — поздравление с фейерверком готово.", "rs1": "Тот, кто откроет ссылку, сначала откроет подарок, а потом увидит поздравление.", "rs2": "На день рождения появляется торт, свечи можно задуть на экране.", "rs3": "Пишется стих, каждая строка которого начинается с буквы имени.", "rs4": "У каждого поздравления свой цвет, звук и музыка.", "rs5": "Ничего устанавливать и регистрироваться не нужно."}, "en": {"tHome": "Home", "tApps": "Apps", "tAbout": "About", "tOwner": "Owner", "h1": "Online greeting with fireworks", "hl": "Enter a name, pick a greeting type and send the link to your loved ones. Whoever opens it will see their own name under the fireworks.", "bCreate": "Create a greeting", "bTypes": "Greeting types", "bSher": "📜 Poem from a name", "hint": "✨ Tap any empty spot on the screen to launch a firework there.", "st1b": "1. Write a name and message", "st1s": "The name of the person you're greeting and your own message.", "st2b": "2. Pick a type", "st2s": "Birthday, holiday or another greeting.", "st3b": "3. Send the link", "st3s": "The person who opens it first unwraps a gift, then the fireworks and greeting appear.", "phName": "Enter a name", "phMsg": "Your message (optional)", "start": "Start", "hApps": "📱 Apps", "appsLead": "Download my apps straight from here. Telegram isn't required.", "appNote": "After downloading, you may need to allow \"Install from unknown sources\" in your phone settings.", "noApps": "Apps will be added soon.", "dl": "⬇️ Download", "ab1": "\"Hammasi siz uchun\" is a web page for creating online greetings for various holidays and events.", "ab2": "You pick a greeting type, create a special link and send it to your loved ones. Whoever opens the link sees fireworks and their own name.", "ab3": "To use the site, just open the address in a browser: there is nothing to install and no sign-up.", "hSher": "Poem from a name", "sherLead": "Enter a name: each line of the poem starts with one letter of the name.", "phSher": "Enter a name (Latin letters)", "sherGo": "Write a poem", "sNew": "🔄 Another poem", "sCopy": "Copy text", "copyLink": "Copy link", "copied": "Copied!", "copyFail": "Couldn't copy", "copyHint": "Tap the link and copy it", "hintLatin": "Write the name in Latin letters.", "hintName": "Enter a name first.", "ow1": "If you have a question or a suggestion about the site, you can reach me through social media.", "oTg": "✈️ Telegram channel", "oIg": "📸 My Instagram page", "contact": "Contact the owner", "giftHint": "Tap to open the gift", "more": "🔄 Another wish", "blow": "🌬️ Blow out the candles", "tap": "✨ Tap the screen to launch fireworks", "wish": "🎂 Make a wish!", "newG": "Create a new greeting", "rs0": "Enter a name and your fireworks greeting is ready.", "rs1": "Whoever opens the link first unwraps a gift, then the greeting appears.", "rs2": "A birthday gets a cake, and you can blow out the candles on screen.", "rs3": "A poem is written with each line starting with a letter of the name.", "rs4": "Every greeting has its own color, sound and music.", "rs5": "Nothing to install and no sign-up needed."}};
+const KN={"uz": null, "ru": {"BU SIZ UCHUN": ["Общее поздравление", "Простое и красивое поздравление на любой случай.", "ЭТО ДЛЯ ВАС"], "TUG'ILGAN KUN MUBORAK!": ["День рождения", "Розово-фиолетовые цвета, торт и свечи: свечи можно задуть на экране.", "С ДНЁМ РОЖДЕНИЯ!"], "BAYRAMINGIZ MUBORAK!": ["Праздничное поздравление", "Зелёные и золотые цвета, праздничное настроение.", "С ПРАЗДНИКОМ!"], "TABRIKLAYMAN!": ["Поздравляю", "Синее ночное небо — за успехи и достижения.", "ПОЗДРАВЛЯЮ!"]}, "en": {"BU SIZ UCHUN": ["General greeting", "A simple, beautiful greeting for any occasion.", "THIS IS FOR YOU"], "TUG'ILGAN KUN MUBORAK!": ["Birthday", "Pink-purple colors, a cake and candles: you can blow out the candles on screen.", "HAPPY BIRTHDAY!"], "BAYRAMINGIZ MUBORAK!": ["Holiday greeting", "Green and gold colors, a festive mood.", "HAPPY HOLIDAY!"], "TABRIKLAYMAN!": ["Congratulations", "A blue night sky, for success and achievements.", "CONGRATULATIONS!"]}};
+const WI={"ru": {"BU SIZ UCHUN": ["Пусть ваша жизнь всегда будет светлой, а сердце полным радости!", "Пусть каждый день приносит новые возможности и добрые вести.", "Пусть мечты сбываются, а путь всегда будет открыт.", "Знакомство с вами — большое счастье. Всегда сияйте так же!", "Желаю здоровья, достатка и мирного неба над головой.", "Пусть в вашей душе всегда будет весна!", "Пусть дела идут хорошо, а близкие всегда будут рядом.", "Пусть улыбка не сходит с вашего лица ни сегодня, ни завтра."], "TUG'ILGAN KUN MUBORAK!": ["С днём рождения! Пусть ваша жизнь станет ещё прекраснее.", "Пусть новый год жизни принесёт вам здоровье, счастье и большие успехи.", "Пусть в этот день сбудутся все мечты, а лицо сияет, как свечи!", "Долгих лет жизни, достатка и щедрого стола.", "Пусть каждый год будет радостнее прошедшего. С днём рождения!", "Таким хорошим людям, как вы, долгих лет! Желаю счастливого года.", "Пусть самое заветное желание сбудется в этом году.", "Пусть каждый день вашей жизни проходит как праздник!"], "BAYRAMINGIZ MUBORAK!": ["С праздником! Пусть в ваш дом придут счастье и достаток.", "Пусть стол ломится от угощений, а за ним собираются здоровые близкие.", "Пусть этот праздник принесёт вам радость, а вашей семье — мир.", "Желаю счастливых мгновений с близкими. С праздником!", "Пусть праздничное настроение никогда не покидает вас!", "Пусть добрые намерения исполнятся, а душа всегда будет спокойна.", "Пусть здоровье, удача и радость всегда будут с вами.", "С прекрасным праздником! Пусть жизнь будет красивой, как праздник."], "TABRIKLAYMAN!": ["От всей души поздравляю с успехом!", "Вы этого достойны. Вперёд, к новым вершинам!", "Поздравляю с плодами вашего труда, пусть достижений будет много.", "С большой победой! Пусть вас ждут ещё более высокие рубежи.", "Пусть мечты сбываются одна за другой!", "Эта победа — только начало. Пусть удача всегда будет рядом!", "Мы гордимся вами! Так держать.", "Поздравляю с новым началом и счастливыми днями!"]}, "en": {"BU SIZ UCHUN": ["May your life always be bright and your heart full of joy!", "May every day bring new opportunities and good news.", "May your dreams come true and your road always stay open.", "It's a joy to know you. Keep shining like this!", "Wishing you health, abundance and a calm sky always.", "May there always be spring in your heart!", "May your work go well and your loved ones always be by your side.", "May the smile never leave your face, today or tomorrow."], "TUG'ILGAN KUN MUBORAK!": ["Happy birthday! May your life become even more beautiful.", "May your new year of life bring you health, happiness and great success.", "May all your dreams come true today, and may your face glow like the candles!", "Long life, blessings and a generous table to you.", "May every year be happier than the last. Happy birthday!", "Good people like you deserve a long life! Wishing you a happy year.", "May the biggest wish in your heart come true this year.", "May every day of your life feel like a celebration!"], "BAYRAMINGIZ MUBORAK!": ["Happy holiday! May happiness and abundance enter your home.", "May your table be full and your circle healthy and well.", "May this holiday bring you joy and your family peace.", "Wishing you happy moments with your loved ones. Happy holiday!", "May the festive mood never leave your heart!", "May your good wishes be accepted and your heart always content.", "May health, luck and happiness always be with you.", "Happy holiday! May your life be as beautiful as a celebration."], "TABRIKLAYMAN!": ["Heartfelt congratulations on your success!", "You deserve it. On to new heights!", "Congratulations on seeing the fruit of your work, may your achievements be many.", "Congratulations on the big win! May even greater goals be yours.", "May your dreams keep coming true, one after another!", "This success is only the beginning. May luck always be with you!", "We're proud of you! Keep it up.", "Congratulations on a new beginning and happy days!"]}};
+let LANG='uz';
+try{const l=localStorage.getItem('lang');if(I18N[l])LANG=l;}catch(e){}
+const t=k=>(I18N[LANG]&&I18N[LANG][k])||I18N.uz[k]||'';
+function kInfo(o){const x=KN[LANG]&&KN[LANG][o.k];return x?{n:x[0],d:x[1],s:x[2]}:{n:o.n,d:o.d,s:o.k};}
+function kindLabel(k){const o=KINDS.find(x=>x.k===k);return o?kInfo(o).s:k;}
+function buildKinds(){
+  const sel=$('kind'),v=sel.value;sel.innerHTML='';$('cards').innerHTML='';
+  KINDS.forEach(o=>{
+    const f=kInfo(o);
+    const op=document.createElement('option');op.value=o.k;op.textContent=o.e+' '+f.n;sel.appendChild(op);
+    const b=document.createElement('button');b.className='card';b.style.borderLeft='4px solid '+o.t.acc;
+    const em=document.createElement('span');em.className='em';em.textContent=o.e;
+    const bx=document.createElement('span'),st=document.createElement('strong'),sm=document.createElement('small');
+    st.textContent=f.n;sm.textContent=f.d;bx.append(st,sm);b.append(em,bx);
+    b.onclick=()=>{$('kind').value=o.k;location.hash='#create';};
+    $('cards').appendChild(b);
+  });
+  if(v)sel.value=v;
+}
+buildKinds();
 
 /* ===== ILOVALAR RO'YXATI: yangi ilova qo'shish uchun shu ro'yxatga bitta qator yozing =====
    name: nomi, desc: qisqa tavsif, url: yuklab olish havolasi (https://...), size: hajmi (ixtiyoriy), ver: versiya (ixtiyoriy)
@@ -406,15 +437,17 @@ const APPS=[
 const GH_REPO='berdiyevpg/berdiyevpg.github.io';
 function fmtSize(b){return (b/1e6).toFixed(1).replace('.',',')+' MB';}
 function fileOf(u){try{return decodeURIComponent(u.split('/').pop());}catch(e){return u.split('/').pop();}}
+let lastApps=null;
 function renderApps(list){
+  lastApps=list;
   const box=$('appList');box.innerHTML='';
   const ok=list.filter(a=>a&&/^https:\/\//.test(a.url||''));
-  if(!ok.length){const p=document.createElement('p');p.className='mut';p.textContent="Ilovalar tez orada qo'shiladi.";box.appendChild(p);$('appNote').classList.add('hide');return;}
+  if(!ok.length){const p=document.createElement('p');p.className='mut';p.textContent=t('noApps');box.appendChild(p);$('appNote').classList.add('hide');return;}
   ok.forEach(a=>{
     const d=document.createElement('div');d.className='step';d.style.marginBottom='12px';
     const h=document.createElement('strong');h.style.cssText='display:block;font-size:19px';h.textContent='📱 '+a.name+(a.ver?' · v'+a.ver:'');
     const t=document.createElement('p');t.style.cssText='margin:6px 0 12px;color:var(--mut)';t.textContent=(a.desc||'')+(a.size?(a.desc?' ':'')+'('+a.size+')':'');
-    const l=document.createElement('a');l.className='btn';l.href=a.url;l.rel='noopener';l.setAttribute('download','');l.textContent='⬇️ Yuklab olish';
+    const l=document.createElement('a');l.className='btn';l.href=a.url;l.rel='noopener';l.setAttribute('download','');l.textContent=t('dl');
     d.append(h,t,l);box.appendChild(d);
   });
   $('appNote').classList.remove('hide');
@@ -703,9 +736,9 @@ function play(name,kind,message){
   ['msg','tap','cake','share'].forEach(i=>$(i).classList.remove('in2'));
   $('share').style.visibility='hidden';
   $('cake').classList.add('hide');$('cake').classList.remove('out');$('blow').classList.remove('hide');
-  $('title').textContent=name.toUpperCase();$('sub').textContent=kind;$('msg').textContent=cur.message||pickWish(kind);
+  $('title').textContent=name.toUpperCase();$('sub').textContent=kindLabel(kind);$('msg').textContent=cur.message||pickWish(kind);
   $('msg').classList.remove('hide');$('more').classList.add('hide');
-  $('tap').textContent='✨ Ekranga bosing, mushak otiladi';
+  $('tap').textContent=t('tap');
   $('giftbox').classList.remove('open');$('gift').classList.remove('hide');
   spawn=0;
 }
@@ -750,7 +783,7 @@ $('mus').onclick=e=>{
 };
 $('blow').onclick=()=>{
   $('cake').classList.add('out');$('blow').classList.add('hide');
-  $('tap').textContent='🎂 Tilagingizni ayting!';
+  $('tap').textContent=t('wish');
   [0,180,360,540].forEach((d,i)=>timers.push(setTimeout(()=>burst(W*(.2+.2*i),H*(.25+.1*(i%2))),d)));
 };
 document.addEventListener('click',e=>{
@@ -766,9 +799,9 @@ $('f').onsubmit=e=>{
   play(n,$('kind').value,$('msgIn').value.trim());
 };
 $('copy').onclick=async()=>{
-  try{await navigator.clipboard.writeText($('link').value);$('copy').textContent='Nusxalandi!';}
-  catch(e){$('link').select();$('copy').textContent='Havolani bosib nusxalang';}
-  setTimeout(()=>{$('copy').textContent='Havolani nusxalash'},2500);
+  try{await navigator.clipboard.writeText($('link').value);$('copy').textContent=t('copied');}
+  catch(e){$('link').select();$('copy').textContent=t('copyHint');}
+  setTimeout(()=>{$('copy').textContent=t('copyLink')},2500);
 };
 $('link').onclick=()=>$('link').select();
 document.querySelectorAll('a.go').forEach(a=>a.addEventListener('click',e=>{
@@ -939,7 +972,7 @@ function makePoem(){
   const box=$('poem');box.innerHTML='';
   if(!keys.length){
     box.classList.add('hide');$('sact').classList.add('hide');
-    $('shint').textContent=nm?'Ismni lotin harflarida yozing.':'Avval ism yozing.';
+    $('shint').textContent=nm?t('hintLatin'):t('hintName');
     return;
   }
   $('shint').textContent='';
@@ -958,14 +991,14 @@ function makePoem(){
   burst(W/2,H*0.3);
 }
 async function copyTxt(t,btn,lab){
-  try{await navigator.clipboard.writeText(t);btn.textContent='Nusxalandi!';}
-  catch(e){btn.textContent="Nusxalab bo'lmadi";}
-  setTimeout(()=>{btn.textContent=lab},2000);
+  try{await navigator.clipboard.writeText(t);btn.textContent=t('copied');}
+  catch(e){btn.textContent=t('copyFail');}
+  setTimeout(()=>{btn.textContent=t(lab)},2000);
 }
 $('sf').onsubmit=e=>{e.preventDefault();makePoem();};
 $('sNew').onclick=makePoem;
-$('sCopy').onclick=()=>copyTxt($('sname').value.trim().toUpperCase()+'\n\n'+poemText,$('sCopy'),'Matnni nusxalash');
-$('sLink').onclick=()=>copyTxt(location.href.split('?')[0].split('#')[0]+'?sher='+enc($('sname').value.trim())+'#sher',$('sLink'),'Havolani nusxalash');
+$('sCopy').onclick=()=>copyTxt($('sname').value.trim().toUpperCase()+'\n\n'+poemText,$('sCopy'),'sCopy');
+$('sLink').onclick=()=>copyTxt(location.href.split('?')[0].split('#')[0]+'?sher='+enc($('sname').value.trim())+'#sher',$('sLink'),'copyLink');
 
 const RS=[
   {e:"🎆",t:"Ism yozing, mushakbozlikli tabrik tayyor bo'ladi.",h:"#create"},
@@ -978,7 +1011,7 @@ const RS=[
 let ri=0,rt=null;
 RS.forEach((x,i)=>{const d=document.createElement('i');d.onclick=()=>{showSlide(i);rotStart();};$('rD').appendChild(d);});
 function applySlide(){
-  $('rE').textContent=RS[ri].e;$('rT').textContent=RS[ri].t;$('rot').href=RS[ri].h;
+  $('rE').textContent=RS[ri].e;$('rT').textContent=t('rs'+ri)||RS[ri].t;$('rot').href=RS[ri].h;
   [...$('rD').children].forEach((d,i)=>d.classList.toggle('on',i===ri));
 }
 function showSlide(i,instant){
@@ -1184,9 +1217,11 @@ function applyCfg(c){
   const mi=STYLES.findIndex(x=>x.id===cfg.music);
   if(mi>=0){styleIdx=mi;$('mus').textContent='🎵 '+STYLES[mi].name;}
   CUR_CFG=cfg;
+  heroLang();
 }
 function fillAdmin(){
   const c=CUR_CFG;
+  if(typeof loadStats==='function')loadStats();
   $('cName').value=c.siteName;$('cH1').value=c.heroTitle;$('cLead').value=c.heroText;$('cBanner').value=c.banner;
   $('cTg').value=c.tg;$('cIg').value=c.ig;$('cYt').value=c.yt;$('cBot').value=c.bot;$('cMusic').value=c.music;
 }
@@ -1263,6 +1298,50 @@ try{
   if(q.get('sher')){$('sname').value=q.get('sher').slice(0,30);makePoem();if(location.hash!=='#sher')location.hash='#sher';}
   if(q.get('ism')){play(q.get('ism').slice(0,30),fixKind((q.get('t')||'').slice(0,40)),(q.get('x')||'').slice(0,160));}
 }catch(e){}
+
+/* ---------- til tanlash ---------- */
+function heroLang(){
+  const c=CUR_CFG;
+  $('heroH1').textContent=(LANG==='uz'||c.heroTitle!==DEF_CFG.heroTitle)?c.heroTitle:t('h1');
+  $('heroLead').textContent=(LANG==='uz'||c.heroText!==DEF_CFG.heroText)?c.heroText:t('hl');
+}
+function applyLang(l){
+  if(!I18N[l])l='uz';
+  LANG=l;try{localStorage.setItem('lang',l);}catch(e){}
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-i18n]').forEach(e=>{const v=t(e.dataset.i18n);if(v)e.textContent=v;});
+  document.querySelectorAll('[data-i18n-ph]').forEach(e=>{e.placeholder=t(e.dataset.i18nPh);});
+  $('langBtn').textContent='🌐 '+l.toUpperCase();
+  heroLang();buildKinds();
+  if(lastApps)renderApps(lastApps);
+  applySlide();
+  if($('stage').classList.contains('on')&&cur){$('sub').textContent=kindLabel(cur.kind);}
+}
+function openLang(){$('langBox').classList.remove('hide');}
+document.querySelectorAll('#langBox [data-l]').forEach(b=>b.onclick=e=>{e.stopPropagation();applyLang(b.dataset.l);$('langBox').classList.add('hide');});
+$('langBtn').onclick=openLang;
+let _hasLang=false;try{_hasLang=!!localStorage.getItem('lang');}catch(e){}
+applyLang(LANG);
+if(!_hasLang)openLang();
+
+/* ---------- foydalanish statistikasi ---------- */
+async function countVisit(){
+  try{
+    if(!fbOn||!httpOk||localStorage.getItem('vis'))return;
+    const base='projects/'+FIREBASE_CONFIG.projectId+'/databases/(default)/documents';
+    const r=await fetch('https://firestore.googleapis.com/v1/'+base+':commit?key='+FIREBASE_CONFIG.apiKey,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({writes:[{transform:{document:base+'/stats/visitors',fieldTransforms:[{fieldPath:'total',increment:{integerValue:'1'}}]}}]})});
+    if(r.ok)localStorage.setItem('vis','1');
+  }catch(e){}
+}
+if(document.readyState==='complete')setTimeout(countVisit,1500);else addEventListener('load',()=>setTimeout(countVisit,1500),{once:true});
+async function loadStats(){
+  const n=$('stN');
+  try{
+    await fbInit();
+    const snap=await FB.Fs.getDoc(FB.Fs.doc(FB.db,'stats','visitors'));
+    n.textContent=snap.exists()?String(snap.data().total||0):'0';
+  }catch(e){n.textContent="o'qib bo'lmadi (Firestore qoidalarini tekshiring)";}
+}
 </script>
 </body>
 </html>
