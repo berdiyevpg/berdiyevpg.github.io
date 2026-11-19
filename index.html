@@ -273,6 +273,11 @@ body.show #foot{display:none}
     <button class="btn" type="submit" style="margin-top:16px">Yuklash</button>
   </form>
   <p id="apMsg" class="msg"></p>
+
+  <h2 style="margin-top:28px">Yuklangan ilovalar</h2>
+  <div id="apMgr"></div>
+  <button class="btn alt" id="apRef" type="button" style="margin-top:8px">🔄 Ro'yxatni yangilash</button>
+  <p id="apMsg2" class="msg"></p>
 </section>
 
 </main>
@@ -1219,6 +1224,7 @@ function applyCfg(c){
 function fillAdmin(){
   const c=CUR_CFG;
   if(typeof loadStats==='function')loadStats();
+  if(typeof loadMgr==='function')loadMgr();
   $('cName').value=c.siteName;$('cH1').value=c.heroTitle;$('cLead').value=c.heroText;$('cBanner').value=c.banner;
   $('cTg').value=c.tg;$('cIg').value=c.ig;$('cYt').value=c.yt;$('cBot').value=c.bot;$('cMusic').value=c.music;
 }
@@ -1257,10 +1263,41 @@ $('ap').onsubmit=async e=>{
     const r=await fetch(url,{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},H),body:JSON.stringify({message:'Ilova: '+f.name,content:b64,sha})});
     if(!r.ok){const j=await r.json().catch(()=>({}));throw new Error(r.status===401?'Token noto\'g\'ri yoki muddati tugagan.':r.status===403||r.status===404?'Tokenda ruxsat yo\'q (Contents: Read and write kerak).':(j.message||r.status));}
     try{sessionStorage.removeItem('apk_cache');}catch(e){}
-    appsDone=false;appsOnce();$('apFile').value='';
+    appsDone=false;appsOnce();$('apFile').value='';loadMgr();
     setMsg('apMsg',"Yuklandi! \""+f.name+"\" Ilovalar bo'limida paydo bo'ldi.",1);
   }catch(err){setMsg('apMsg',err&&err.message?err.message:'Xatolik. Qayta urinib ko\'ring.');}
 };
+function ghHead(){return{Authorization:'Bearer '+$('apTok').value.trim(),Accept:'application/vnd.github+json'};}
+async function loadMgr(){
+  const box=$('apMgr');
+  if(!$('apTok').value.trim()){box.textContent='Ro\'yxatni ko\'rish uchun yuqoridagi maydonga GitHub tokenni kiriting.';box.className='mut';return;}
+  box.className='mut';box.textContent='Yuklanmoqda...';
+  try{
+    const r=await fetch('https://api.github.com/repos/'+GH_REPO+'/contents/?t='+Date.now(),{headers:ghHead()});
+    if(!r.ok)throw new Error(r.status===401?'Token noto\'g\'ri yoki muddati tugagan.':r.status);
+    const fl=(await r.json()).filter(x=>x.type==='file'&&/\.apk$/i.test(x.name));
+    box.className='';box.innerHTML='';
+    if(!fl.length){box.className='mut';box.textContent='Hozircha ilova yo\'q.';return;}
+    fl.forEach(f=>{
+      const d=document.createElement('div');d.className='step';d.style.cssText='margin-bottom:10px;display:flex;gap:10px;align-items:center;justify-content:space-between';
+      const n=document.createElement('span');n.style.cssText='display:block;margin:0;color:#fff;word-break:break-all';n.textContent=f.name+' ('+fmtSize(f.size)+')';
+      const b=document.createElement('button');b.type='button';b.className='btn alt';b.style.cssText='margin:0;flex:none';b.textContent='🗑 O\'chirish';
+      b.onclick=async()=>{
+        if(!confirm('"'+f.name+'" ni o\'chirasizmi? Saytdan ham yo\'qoladi.'))return;
+        b.disabled=true;setMsg('apMsg2','O\'chirilmoqda...',1);
+        try{
+          const rr=await fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+encodeURIComponent(f.name),{method:'DELETE',headers:Object.assign({'Content-Type':'application/json'},ghHead()),body:JSON.stringify({message:'Ilova o\'chirildi: '+f.name,sha:f.sha})});
+          if(!rr.ok){const j=await rr.json().catch(()=>({}));throw new Error(j.message||rr.status);}
+          try{sessionStorage.removeItem('apk_cache');}catch(e){}
+          appsDone=false;appsOnce();
+          setMsg('apMsg2','"'+f.name+'" o\'chirildi.',1);loadMgr();
+        }catch(err){b.disabled=false;setMsg('apMsg2',err&&err.message?err.message:'Xatolik.');}
+      };
+      d.append(n,b);box.appendChild(d);
+    });
+  }catch(err){box.className='mut';box.textContent='Ro\'yxatni olib bo\'lmadi: '+(err&&err.message?err.message:'xatolik');}
+}
+$('apRef').onclick=loadMgr;
 async function loadCfg(){
   try{const snap=await FB.Fs.getDoc(FB.Fs.doc(FB.db,'site','config'));if(snap.exists())applyCfg(snap.data());}catch(e){}
 }
